@@ -17,23 +17,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-class GoodsInfoRequestBody{
-    public String token;
-    public String id;
-    public String name;
-    public Integer length;
-    public Integer width;
-    public Integer height;
-    public Integer weight;
-    public String sku;
-    public String upc;
-    public String ena;
-    public String model;
-    public Integer price;
-    public String maintain;
-    public String ebaydis;
-    public String amazondis;
-}
+
 
 
 
@@ -56,15 +40,20 @@ public class GoodsController {
             FailedResponse r = new FailedResponse("身份认证过期，请重新登录");
             return r;
         }
-
-
-        Goods newgoods = new Goods();
-        newgoods.mvoid = bvoRepository.findAllByUserid(user.id).id;
+        Goods newgoods ;
+        if(!requestBody.id.equals("")) {
+            //已存在
+           newgoods = goodsRepository.findAllById(requestBody.id);
+        }else{
+            newgoods = new Goods();
+        }
+        //更新信息
+        newgoods.mvoid = user.id;
         newgoods.price = requestBody.price;
         newgoods.adis = requestBody.amazondis;
         newgoods.edis = requestBody.ebaydis;
         newgoods.sku = requestBody.sku;
-        newgoods.ena =requestBody.ena;
+        newgoods.ena = requestBody.ena;
         newgoods.upc = requestBody.upc;
         newgoods.name = requestBody.name;
         newgoods.weight = requestBody.weight;
@@ -82,7 +71,13 @@ public class GoodsController {
     @GetMapping
     @RequestMapping("/searchgoods")
     public @ResponseBody
-    Response searchlike(@RequestParam String name){
+    Response searchlike(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,@RequestParam String name){
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证过期，请重新登录");
+            return r;
+        }
+        //关键字为空返回全部商品信息
         if(name.equals("")){
             List<Goods> goodsList = new LinkedList<>();
             Iterable<Goods> iterable = goodsRepository.findAll();
@@ -101,12 +96,34 @@ public class GoodsController {
         }
     }
 
+    //添加商品主图
+    @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
+    @RequestMapping("/addMainImg")
+    public @ResponseBody
+    Response addMainImg(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
+                        @RequestBody GoodsMainImgReqBody reqBody ){
+
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证过期，请重新登录");
+            return r;
+        }
+
+        Goods goods = goodsRepository.findAllById(reqBody.goodsid);
+        goods.img = reqBody.img;
+        goods.state = reqBody.state;
+        goods.type = reqBody.type;
+        goodsRepository.save(goods);
+        return new SuccessResponse("添加商品主图成功");
+    }
+
+
     @GetMapping
     @RequestMapping("/deleteAll")
     public @ResponseBody
     Response deleteAll(){
         goodsRepository.deleteAll();
-        return new SuccessResponse("deleter success");
+        return new SuccessResponse("delete success");
     }
 
     @GetMapping
@@ -124,5 +141,28 @@ public class GoodsController {
         }else{
             return null;
         }
+    }
+    class GoodsInfoRequestBody{
+        public String token;
+        public String id;
+        public String name;
+        public Integer length;
+        public Integer width;
+        public Integer height;
+        public Integer weight;
+        public String sku;
+        public String upc;
+        public String ena;
+        public String model;
+        public Integer price;
+        public String maintain;
+        public String ebaydis;
+        public String amazondis;
+    }
+    class GoodsMainImgReqBody{
+        public String goodsid;
+        public String type;
+        public String img;
+        public Integer state;
     }
 }

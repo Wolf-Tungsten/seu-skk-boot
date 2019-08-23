@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import skk.entity.*;
 import skk.repository.*;
+import skk.util.FailedResponse;
 import skk.util.Response;
 import skk.util.SuccessResponse;
 
@@ -21,12 +22,10 @@ class  BvoInfochangeReqBody{
 }
 //添加心愿单项目表单
 class  BvoWishReqBody{
-    public String bvoId;
     public String goodsId;
 }
 //删除心愿单项目表单
 class deletWishsReqBody{
-    public String bvoId;
     public List<String> goodsIdList ;
 }
 
@@ -57,25 +56,47 @@ public class Bvocontroller {
     private OrderRepository orderRepository;
     @Autowired
     private OrderXBvoRepository orderXBvoRepository;
+    @Autowired
+    private UserRepository userRepository;
 
+    User getUserInfo(String token){
+        List<User> users = userRepository.findByToken(token);
+        if(users.size() == 1){
+            return users.get(0);
+        } else {
+            return null;
+        }
+    }
 
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/updatebvo")
     public @ResponseBody
-    Response updateBvo (@RequestBody BvoInfochangeReqBody requestBody) {
+    Response updateBvo (@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,@RequestBody BvoInfochangeReqBody requestBody) {
+
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
+
         //各种判断
         Bvo newBvo = new Bvo();
         newBvo.name = requestBody.name;
         newBvo.email = requestBody.email;
         newBvo.phone = requestBody.phone;
-        newBvo.userid = requestBody.userid;
+        newBvo.userid = user.id;
         bvoRepository.save(newBvo);
         return new SuccessResponse("success");
     }
     @GetMapping
     @RequestMapping("/findAllBvo")
     public @ResponseBody
-    Response finAllBvo(){
+    Response finAllBvo(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token){
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
         List<Bvo> bl = new LinkedList<>();
         Iterable<Bvo> bvoIterable = bvoRepository.findAll();
         Iterator<Bvo> itr = bvoIterable.iterator();
@@ -92,9 +113,14 @@ public class Bvocontroller {
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/addWish")
     public @ResponseBody
-    Response addWish(@RequestBody BvoWishReqBody reqBody){
+    Response addWish(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,@RequestBody BvoWishReqBody reqBody){
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
         BvoWish w = new BvoWish();
-        w.bvoid = reqBody.bvoId;
+        w.bvoid = user.id;
         w.goodsid = reqBody.goodsId;
         bvowishRepository.save(w);
         return new SuccessResponse("success");
@@ -104,26 +130,35 @@ public class Bvocontroller {
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/deleteWishs")
         public @ResponseBody
-        Response deleteWishs(@RequestBody deletWishsReqBody reqBody){
-            List<String> goodIdList = reqBody.goodsIdList;
-            System.out.println(goodIdList.size());
-            for (int i = 0;i < goodIdList.size(); i++){
-                bvowishRepository.deleteAllByBvoidAndGoodsid(reqBody.bvoId,goodIdList.get(i));
-            }
+        Response deleteWishs(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,@RequestBody deletWishsReqBody reqBody){
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
+        List<String> goodIdList = reqBody.goodsIdList;
+        System.out.println(goodIdList.size());
+        for (int i = 0;i < goodIdList.size(); i++){
+            bvowishRepository.deleteAllByBvoidAndGoodsid(user.id,goodIdList.get(i));
+        }
         return new SuccessResponse("deleteSuccess");
     }
 //**显示心愿单
     @GetMapping
     @RequestMapping("/showWishList")
     public @ResponseBody
-    Response showWishList(){
-        Iterable<BvoWish> wishlist = bvowishRepository.findAll();
-        Iterator<BvoWish> itr = wishlist.iterator();
+    Response showWishList(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token){
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
+
+        List<BvoWish> wishList = bvowishRepository.findAllByBvoid(user.id);
         List<Goods> goodsList = new LinkedList<>();
-        while (itr.hasNext()){
-            BvoWish bw = itr.next();
-            Goods ng = goodsRepository.findAllById(bw.goodsid);
-            goodsList.add(ng);
+        for (int i=0;i<goodsList.size();i++){
+            Goods goods = goodsRepository.findAllById(wishList.get(i).goodsid);
+            goodsList.add(goods);
         }
         return new SuccessResponse(goodsList);
     }

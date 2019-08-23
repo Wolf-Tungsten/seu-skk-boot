@@ -11,4 +11,6 @@ public interface BvowishRepository extends CrudRepository<BvoWish,String> {
     @Transactional
     void deleteAllByBvoidAndGoodsid(String bvoid,String goodsid);
     void deleteByBvoidAndGoodsid(String bvoid,String goodsid);
+
+    List<BvoWish> findAllByBvoid(String id);
 }
