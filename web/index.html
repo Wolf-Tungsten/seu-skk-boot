@@ -323,7 +323,7 @@
               <label for="password">密码</label>
               <input type="password" class="form-control" id="password" placeholder="请输入密码">
             </div>
-            <button  class="btn btn-primary" style="margin-top:20px;">点击登录</button>
+            <button  id="loginBtn" class="btn btn-primary" style="margin-top:20px;" >点击登录</button>
           </form> 
         </div>         
     </div>
@@ -345,6 +345,13 @@
         $('#sidebar').hide();
         $('#menuFrame').hide();
      } 
+     $("#loginBtn").click((e)=>{
+         e.preventDefault()
+         console.log({
+             username:$("#username").val(),
+             password:$("#password").val()
+         })
+     })
  })
 </script>
 </html>
