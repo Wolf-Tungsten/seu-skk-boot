@@ -13,6 +13,7 @@ public class User {
     @Column(name = "id", length = 64)
     public String id;
 
+
     @Column(name = "username", unique = true, nullable = false, length = 64)
     public String username;
 
