@@ -15,6 +15,7 @@ class SignupRequestBody {
 }
 
 @RestController
+@CrossOrigin
 @RequestMapping("/signup")
 public class SignupController {
 
