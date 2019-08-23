@@ -63,19 +63,19 @@
             <form class="form-horizontal">
 
               <div class="control-group">
-                <label class="control-label" for="form-field-1">Company Name<br>公司名称(中)</label>
+                <label class="control-label" for="companyNameChinese">Company Name<br>公司名称(中)</label>
                 <div class="controls">
-                  <input type="text" id="form-field-1">
+                  <input type="text" id="companyNameChinese">
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label" for="form-field-1">Company Name<br>公司名称(英)</label>
+                <label class="control-label" for="companyNameEnglish">Company Name<br>公司名称(英)</label>
                 <div class="controls">
-                  <input type="text" id="form-field-1">
+                  <input type="text" id="companyNameEnglish">
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label" for="form-field-1">Brief Introduction<br>公司简介</label>
+                <label class="control-label" for="brief">Brief Introduction<br>公司简介</label>
                 <div class="controls">
                   <div class="btn-toolbar" data-role="editor-toolbar" data-target="#editor">
                     <div class="btn-group">
@@ -141,16 +141,16 @@
               </div>
 
               <div class="control-group">
-                <label class="control-label" for="form-field-1">GMC Report Type<br> 品牌商认证类型</label>
+                <label class="control-label" for="gcmReportType">GMC Report Type<br> 品牌商认证类型</label>
                 <div class="controls">
-                  <input type="text" id="form-field-1">
+                  <input type="text" id="gcmReportType">
                 </div>
               </div>
 
               <div class="control-group">
-                <label class="control-label" for="form-field-1">GMC Report Url<br>证书地址</label>
+                <label class="control-label" for="gcmReportUrl">GMC Report Url<br>证书地址</label>
                 <div class="controls">
-                  <input type="text" id="form-field-1">
+                  <input type="text" id="gcmReportUrl">
                 </div>
               </div>
 
@@ -206,16 +206,40 @@
     };
     initToolbarBootstrapBindings();
     $('#editor').wysiwyg({ fileUploadError: showErrorAlert });
+
     $('#btnsave').click(function () {
-      window.location.href = "brand-brandInput.html";
+      // 提交
+      let companyNameChinese = $("#companyNameChinese").val()
+      let companyNameEnglish = $("#companyNameEnglish").val()
+      let brief = $("#editor").html()
+      let gcmReportType = $("#gcmReportType").val()
+      let gcmReportUrl = $("#gcmReportUrl").val()
+
+      axios.post($server+'mvo/brandExtraInfo', {companyNameChinese, companyNameEnglish,
+      brief, gcmReportType, gcmReportUrl}).then((res) => {
+        if(res.data.success){
+          window.location.href = "brand-brandInput.html";
+        }
+      })
     })
+
   </script>
 
   <script>
     $(document).ready(function() {
-      console.log('ssds')
-      let res = axios.get($server + 'mvo/brandExtraInfo')
-      console.log(res)
+      axios.get($server + 'mvo/brandExtraInfo').then(res => {
+        if(res.data.success){
+          // 如果获取到数据则渲染
+          let data = res.data.result
+          $("#companyNameChinese").val(data.companyNameChinese)
+          $("#companyNameEnglish").val(data.companyNameEnglish)
+          $("#editor").html(data.brief)
+          $("#gcmReportType").val(data.gcmReportType)
+          $("#gcmReportUrl").val(data.gcmReportUrl)
+        }
+      })
+
+
     })
   </script>
 </body>

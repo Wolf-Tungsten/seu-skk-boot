@@ -39,7 +39,7 @@ public class MvoController {
 
         User user = getUserInfo(token);
         if(user == null){
-            FailedResponse r = new FailedResponse("身份认证过期，请重新登录");
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
             return r;
         }
 
@@ -51,4 +51,47 @@ public class MvoController {
             return r;
         }
     }
+
+
+    @PostMapping(path = "/brandExtraInfo")
+    public @ResponseBody
+    Response postBrandExtraInfo(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
+    @RequestBody BrandExtraInfoRequest requestBody){
+
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
+        // 先检查扩展信息是否已经存在
+
+        BrandExtraInfo info;
+
+        List<BrandExtraInfo> infos = brandExtraInfoRepository.findBrandExtraInfoByMvoId(user.id);
+        if(infos.size() == 1){
+            info = infos.get(0);
+        } else {
+            info = new BrandExtraInfo();
+        }
+
+        info.mvoId = user.id;
+        info.brief = requestBody.brief;
+        info.companyNameChinese = requestBody.companyNameChinese;
+        info.companyNameEnglish = requestBody.companyNameEnglish;
+        info.gcmReportType = requestBody.gcmReportType;
+        info.gcmReportUrl = requestBody.gcmReportUrl;
+
+        brandExtraInfoRepository.save(info);
+
+        return new SuccessResponse("更新成功");
+    }
+}
+
+
+class BrandExtraInfoRequest {
+    public String companyNameChinese;
+    public String companyNameEnglish;
+    public String brief;
+    public String gcmReportType;
+    public String gcmReportUrl;
 }
