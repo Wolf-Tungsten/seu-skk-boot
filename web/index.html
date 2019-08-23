@@ -90,7 +90,7 @@
 
 
       <li id="menu-brand-addbrand">
-        <a href="brand-addbrand.html" target="menuFrame">
+        <a href="brand-brandInput.html" target="menuFrame">
           <i class="icon-dashboard"></i>
           <span>品牌商-我的信息</span>
         </a>
@@ -236,7 +236,7 @@
         let role = $store.userInfo.role
         $("#loginFace").hide()
         let preset = {
-           mvo:{default:"brand-addbrand.html", list:["menu-brand-addbrand", "menu-brand-productInput-attr",
+           mvo:{default:"brand-brandInput.html", list:["menu-brand-addbrand", "menu-brand-productInput-attr",
            "menu-brand-productInput-pic","menu-brand-orderlist",
            "menu-brand-wallerAcountRegister"]},
            bvo:{default:"bvo-myInfo.html", list:["menu-bvo-myInfo","menu-bvo-goodsstoreAdd","menu-bvo-index",
@@ -292,14 +292,15 @@
         return
       }
 
-      let res = await axios.post("http://10.10.11.251:8080/signin", loginData)
+      let res = await axios.post("http://localhost:8080/signin", loginData)
       $("#passwordErrorHint").hide();
       $("#usernameErrorHint").hide();
       if(res.data.success){
+        console.log(res.data.success)
         let role = res.data.result.role
         $store.userInfo = {username,role}
         $store.token = res.data.result.token
-        axios.default.headers['x-skk-token'] = $store.token
+        axios.defaults.headers['x-skk-token'] = $store.token
         $("#loginFace").hide()
         setMenu(role)
         setNav()

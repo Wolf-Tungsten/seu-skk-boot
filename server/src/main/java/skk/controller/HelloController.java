@@ -3,6 +3,7 @@ package skk.controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/hello")
 public class HelloController {
     @PostMapping("")

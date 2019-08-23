@@ -23,6 +23,7 @@ class SigninResponseBody {
 
 
 @RestController
+@CrossOrigin
 @RequestMapping("/signin")
 public class SigninController {
 
