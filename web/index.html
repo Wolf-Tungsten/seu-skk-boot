@@ -2,8 +2,8 @@
 <html lang="zh-cn">
 
 <head>
-    <meta charset="UTF-8">
-    <title>跨境电商借卖平台</title>
+  <meta charset="UTF-8">
+  <title>跨境电商借卖平台</title>
 </head>
 
 <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -14,337 +14,307 @@
 <link rel="stylesheet" href="css/ace-responsive.min.css">
 
 <style>
-    #sidebar {
-        left: 0;
-        margin-top: 0;
-    }
+  #sidebar {
+    left: 0;
+    margin-top: 0;
+  }
 
-    body,
-    html {
-        width: 100%;
-        height: 100%;
-    }
+  body,
+  html {
+    width: 100%;
+    height: 100%;
+  }
 
-    .blue {
-        color: blue;
-    }
+  .blue {
+    color: blue;
+  }
 </style>
 
 <body>
-    <div class="navbar navbar-inverse">
-        <div class="navbar-inner" style="background:#0099CC;">
-            <div class="container-fluid">
-                <a class="brand">
-                    <small><i class="icon-leaf"></i> 宋凯坤跨境电商走私平台</small>
-                </a>
-
-                <ul class="nav ace-nav pull-right">
-
-                    <li class="light-blue user-profile">
-                        <a class="user-menu dropdown-toggle" href="javascript:;" data-toggle="dropdown">
-                            <img alt="LRJ" src="image/avatar.jpg" class="nav-user-photo">
-                            <span id="user_info"><small>欢迎</small> 宋凯坤</span>
-                            <i class="icon-caret-down"></i>
-                        </a>
-                        <ul id="user_menu"
-                            class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
-                            <li><a href="logout"><i class="icon-off"></i> 退出</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <div id="sidebar">
-        <div id="sidebar-shortcuts">
-
-            <div id="sidebar-shortcuts-large">
-
-                <button class="btn btn-small btn-success"><i class="icon-signal"></i></button>
-
-                <button class="btn btn-small btn-info"><i class="icon-pencil"></i></button>
-
-                <button class="btn btn-small btn-warning"><i class="icon-group"></i></button>
-
-                <button class="btn btn-small btn-danger"><i class="icon-cogs"></i></button>
-
-            </div>
-
-            <div id="sidebar-shortcuts-mini">
-
-                <span class="btn btn-success"></span>
-
-                <span class="btn btn-info"></span>
-
-                <span class="btn btn-warning"></span>
-
-                <span class="btn btn-danger"></span>
-
-            </div>
-
-        </div><!-- #sidebar-shortcuts -->
-
-
-
-        <ul class="nav nav-list">
-
-
-
-            <li>
-
-                <a href="brand-addbrand.html" target="menuFrame">
-
-                    <i class="icon-dashboard"></i>
-
-                    <span>品牌商-我的信息</span>
-
-
-
-                </a>
-
-            </li>
-
-
-
-
-
-            <li>
-
-                <a href="brand-productInput-attr.html" target="menuFrame">
-
-                    <i class="icon-text-width"></i>
-
-                    <span>品牌商-商品录入</span>
-
-
-
-                </a>
-
-            </li>
-            <li>
-
-                <a href="brand-productInput-pic.html" target="menuFrame">
-
-                    <i class="icon-text-width"></i>
-
-                    <span>品牌商-商品主图</span>
-
-
-
-                </a>
-
-            </li>
-
-
-            <li>
-
-                <a href="brand-orderlist.html" class="dropdown-toggle" target="menuFrame">
-
-                    <i class="icon-file"></i>
-
-                    <span>品牌商-订单管理</span>
-
-
-                </a>
-
-            </li>
-
-
-            <li>
-
-                <a href="brand-wallerAcountRegister.html" class="dropdown-toggle" target="menuFrame">
-
-                    <i class="icon-desktop"></i>
-
-                    <span>品牌商-钱包</span>
-                </a>
-
-
-            </li>
-
-
-
-
-
-            <li>
-
-                <a href="bvo-myInfo.html" target="menuFrame">
-
-                    <i class="icon-list"></i>
-
-                    <span>借卖方-我的信息</span>
-
-
-
-                </a>
-
-            </li>
-
-
-
-
-
-            <li>
-
-                <a href="bvo-goodsstoreAdd.html" class="dropdown-toggle" target="menuFrame">
-
-                    <i class="icon-edit"></i>
-
-                    <span>借卖方-店铺管理</span>
-                </a>
-
-
-            </li>
-
-
-            <li>
-
-                <a href="bvo-index.html" target="menuFrame">
-
-                    <i class="icon-list-alt"></i>
-
-                    <span>借卖方-商品浏览</span>
-
-
-
-                </a>
-
-            </li>
-
-
-            <li>
-
-                <a href="bvo-wishlist.html" target="menuFrame">
-
-                    <i class="icon-list-alt"></i>
-
-                    <span>借卖方-心愿单</span>
-
-
-
-                </a>
-
-            </li>
-
-
-
-
-
-            <li>
-
-                <a href="bvo-orderlist.html" target="menuFrame">
-
-                    <i class="icon-calendar"></i>
-
-                    <span>借卖方-订单管理</span>
-
-
-
-                </a>
-
-            </li>
-            <li>
-
-                <a href="bvo-gmcwallerAcount.html" target="menuFrame">
-
-                    <i class="icon-calendar"></i>
-
-                    <span>借卖方-我的钱包</span>
-
-
-
-                </a>
-
-            </li>
-
-
-
-
-            <li>
-
-                <a href="code.html" target="menuFrame">
-
-                    <i class="icon-picture"></i>
-
-                    <span>数据字典管理</span>
-
-
-
-                </a>
-
-            </li>
-
-
-
-
-
-            <li>
-
-                <a href="parameter.html" target="menuFrame">
-
-                    <i class="icon-th"></i>
-
-                    <span>参数管理</span>
-
-
-
-                </a>
-
-            </li>
-
-            <li>
-
-                <a href="admin-withdraw-audit.html" target="menuFrame">
-
-                    <i class="icon-th"></i>
-
-                    <span>admin-充值提现审核</span>
-
-                </a>
-
-            </li>
+  <div class="navbar navbar-inverse">
+    <div class="navbar-inner" style="background:#0099CC;">
+      <div class="container-fluid">
+        <a class="brand">
+          <small><i class="icon-leaf"></i> 宋凯坤跨境电商走私平台</small>
+        </a>
+
+        <ul class="nav ace-nav pull-right">
+
+          <li id="userInfo" class="light-blue user-profile">
+            <a class="user-menu dropdown-toggle" href="javascript:;" data-toggle="dropdown">
+              <img alt="LRJ" src="image/avatar.jpg" class="nav-user-photo">
+              <span id="userName"><small>欢迎</small> 宋凯坤</span>
+              <i class="icon-caret-down"></i>
+            </a>
+            <ul id="user_menu" class="pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-closer">
+              <li><a id="logoutBtn"><i class="icon-off"></i> 退出</a></li>
+            </ul>
+          </li>
         </ul>
-        <!--/.nav-list-->
-
-
-
-        <div id="sidebar-collapse"><i class="icon-double-angle-left"></i></div>
+      </div>
     </div>
-    <iframe id="menuFrame" name="menuFrame" src="brand-addbrand.html" frameborder="no" width="100%" height="100%">
-    </iframe>
-    <div id="loginFace" style="display: flex;flex-direction: column;align-items: center;margin-top:30px;">
-        <div>
-        <form id="loginForm" style="text-align: left;">
-            <div class="form-group">
-              <label for="username">用户名</label>
-              <input type="text" name="username" class="form-control" id="username" placeholder="用户名">
-            </div>
-            <div class="form-group">
-              <label for="password">密码</label>
-              <input type="password" class="form-control" id="password" placeholder="请输入密码">
-            </div>
-            <button  class="btn btn-primary" style="margin-top:20px;">点击登录</button>
-          </form> 
-        </div>         
+  </div>
+  <div id="sidebar">
+    <div id="sidebar-shortcuts">
+
+      <div id="sidebar-shortcuts-large">
+
+        <button class="btn btn-small btn-success"><i class="icon-signal"></i></button>
+
+        <button class="btn btn-small btn-info"><i class="icon-pencil"></i></button>
+
+        <button class="btn btn-small btn-warning"><i class="icon-group"></i></button>
+
+        <button class="btn btn-small btn-danger"><i class="icon-cogs"></i></button>
+
+      </div>
+
+      <div id="sidebar-shortcuts-mini">
+
+        <span class="btn btn-success"></span>
+
+        <span class="btn btn-info"></span>
+
+        <span class="btn btn-warning"></span>
+
+        <span class="btn btn-danger"></span>
+
+      </div>
+
+    </div><!-- #sidebar-shortcuts -->
+
+
+
+    <ul class="nav nav-list">
+
+
+
+      <li id="menu-brand-addbrand">
+        <a href="brand-addbrand.html" target="menuFrame">
+          <i class="icon-dashboard"></i>
+          <span>品牌商-我的信息</span>
+        </a>
+      </li>
+
+
+      <li id="menu-brand-productInput-attr">
+        <a href="brand-productInput-attr.html" target="menuFrame">
+          <i class="icon-text-width"></i>
+          <span>品牌商-商品录入</span>
+        </a>
+      </li>
+
+      <li id="menu-brand-productInput-pic">
+        <a href="brand-productInput-pic.html" target="menuFrame">
+          <i class="icon-text-width"></i>
+          <span>品牌商-商品主图</span>
+        </a>
+      </li>
+
+      <li id="menu-brand-orderlist">
+        <a href="brand-orderlist.html" class="dropdown-toggle" target="menuFrame">
+          <i class="icon-file"></i>
+          <span>品牌商-订单管理</span>
+        </a>
+      </li>
+
+
+      <li id="menu-brand-wallerAcountRegister">
+        <a href="brand-wallerAcountRegister.html" class="dropdown-toggle" target="menuFrame">
+          <i class="icon-desktop"></i>
+          <span>品牌商-钱包</span>
+        </a>
+      </li>
+
+
+      <li id="menu-bvo-myInfo">
+        <a href="bvo-myInfo.html" target="menuFrame">
+          <i class="icon-list"></i>
+          <span>借卖方-我的信息</span>
+        </a>
+      </li>
+
+      <li id="menu-bvo-goodsstoreAdd">
+        <a href="bvo-goodsstoreAdd.html" class="dropdown-toggle" target="menuFrame">
+          <i class="icon-edit"></i>
+          <span>借卖方-店铺管理</span>
+        </a>
+      </li>
+
+      <li id="menu-bvo-index">
+        <a href="bvo-index.html" target="menuFrame">
+          <i class="icon-list-alt"></i>
+          <span>借卖方-商品浏览</span>
+        </a>
+      </li>
+
+      <li id="menu-bvo-wishlist">
+        <a href="bvo-wishlist.html" target="menuFrame">
+          <i class="icon-list-alt"></i>
+          <span>借卖方-心愿单</span>
+        </a>
+      </li>
+
+      <li id="menu-bvo-orderlist">
+        <a href="bvo-orderlist.html" target="menuFrame">
+          <i class="icon-calendar"></i>
+          <span>借卖方-订单管理</span>
+        </a>
+      </li>
+
+      <li id="menu-bvo-gmcwallerAcount">
+        <a href="bvo-gmcwallerAcount.html" target="menuFrame">
+          <i class="icon-calendar"></i>
+          <span>借卖方-我的钱包</span>
+        </a>
+      </li>
+
+      <li id="menu-code">
+        <a href="code.html" target="menuFrame">
+          <i class="icon-picture"></i>
+          <span>数据字典管理</span>
+        </a>
+      </li>
+
+      <li id="menu-parameter">
+        <a href="parameter.html" target="menuFrame">
+          <i class="icon-th"></i>
+          <span>参数管理</span>
+        </a>
+      </li>
+
+      <li id="menu-admin-withdraw-audit">
+        <a href="admin-withdraw-audit.html" target="menuFrame">
+          <i class="icon-th"></i>
+          <span>admin-充值提现审核</span>
+        </a>
+      </li>
+    </ul>
+
+    <!--/.nav-list-->
+
+
+
+    <div id="sidebar-collapse"><i class="icon-double-angle-left"></i></div>
+  </div>
+  <iframe id="menuFrame" name="menuFrame" src="brand-addbrand.html" frameborder="no" width="100%" height="100%">
+  </iframe>
+  <div id="loginFace" style="display: flex;flex-direction: column;align-items: center;margin-top:30px;">
+    <div>
+      <form id="loginForm" style="text-align: left;">
+        <div class="form-group">
+          <label for="username">用户名</label>
+          <input type="text" name="username" class="form-control" id="username" placeholder="用户名">
+          <br/>
+          <span id="usernameErrorHint" style="color:red;display: none;">用户名错误</span>
+        </div>
+        <div class="form-group">
+          <label for="password">密码</label>
+          <input type="password" class="form-control" id="password" placeholder="请输入密码">
+          <br/>
+          <span id="passwordErrorHint" style="color:red;display: none;">密码错误</span>
+        </div>
+        <button id="loginBtn" class="btn btn-primary" style="margin-top:20px;">点击登录</button>
+      </form>
     </div>
+  </div>
 </body>
 <script src="js/babel.min.js"></script>
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/config.js"></script>
 <script src="js/store.js"></script>
+<script src="js/axios.js"></script>
+<script src="js/axios-helper.js"></script>
 <script>
-    $('.nav-list li ').click(function () {
-        $(this).addClass('blue').siblings().removeClass('blue');
-    })
+  $('.nav-list li ').click(function () {
+    $(this).addClass('blue').siblings().removeClass('blue');
+  })
 </script>
 <script>
- $(document).ready(function(){
-     // 检查用户登录状态
-     if(!$store.token){
-        // 如果登录状态无效
+    function setMenu(){
+        let role = $store.userInfo.role
+        $("#loginFace").hide()
+        let preset = {
+           mvo:{default:"brand-addbrand.html", list:["menu-brand-addbrand", "menu-brand-productInput-attr",
+           "menu-brand-productInput-pic","menu-brand-orderlist",
+           "menu-brand-wallerAcountRegister"]},
+           bvo:{default:"bvo-myInfo.html", list:["menu-bvo-myInfo","menu-bvo-goodsstoreAdd","menu-bvo-index",
+           "menu-bvo-wishlist","menu-bvo-orderlist",
+           "menu-bvo-gmcwallerAcount"]},
+           admin:{default:"code.html",list:["menu-code","menu-parameter","menu-admin-withdraw-audit"]}
+        }
+        $("#menuFrame").attr("src", preset[role].default)
+        preset.mvo.list.concat(preset.bvo.list, preset.admin.list).forEach((id)=>{
+            $("#"+id).hide()
+        })
+        preset[role].list.forEach((id)=>{
+            $("#"+id).show()
+        })
+        $("#menuFrame").show()
+        $("#sidebar").show()
+    }
+    function setNav(){
+        $("#userName").html("<small>欢迎</small> "+$store.userInfo.username)
+        $("#userInfo").show()
+    }
+  $(document).ready(function () {
+    // 检查用户登录状态
+    if (!$store.token) {
+      // 如果登录状态无效
+      $('#sidebar').hide();
+      $('#menuFrame').hide();
+      $('#userInfo').hide();
+    } else {
+        $("#loginFace").hide()
+        setNav()
+        setMenu()
+    }
+
+    $("#logoutBtn").click((e)=>{
+        e.preventDefault()
         $('#sidebar').hide();
         $('#menuFrame').hide();
-     } 
- })
+        $('#userInfo').hide();
+        $('#loginFace').show();
+        $store.token = ''
+        $store.userInfo = {}
+    })
+    $("#loginBtn").click(async (e) => {
+      e.preventDefault()
+      let username = $("#username").val()
+      let loginData = {
+        username,
+        password: $("#password").val()
+      }
+      if(loginData.password.length < 8){
+        $("#passwordErrorHint").show();
+        return
+      }
+
+      let res = await axios.post("http://10.10.11.251:8080/signin", loginData)
+      $("#passwordErrorHint").hide();
+      $("#usernameErrorHint").hide();
+      if(res.data.success){
+        let role = res.data.result.role
+        $store.userInfo = {username,role}
+        $store.token = res.data.result.token
+        axios.default.headers['x-skk-token'] = $store.token
+        $("#loginFace").hide()
+        setMenu(role)
+        setNav()
+      } else {
+        let reason = res.data.reason
+        if(reason.indexOf('密码') != -1){
+          $("#passwordErrorHint").show();
+        }
+        if(reason.indexOf('用户') != -1){
+          $("#usernameErrorHint").show();
+        }
+      }
+
+    })
+  })
 </script>
+
 </html>
