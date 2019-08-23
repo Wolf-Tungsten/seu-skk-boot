@@ -15,8 +15,8 @@ public class GoodsXWishList {
     public String id;
 
     @Column(name = "goodsId", nullable = false)
-    String goodsId;
+    public String goodsId;
 
     @Column(name="wishListId", nullable = false)
-    String wishListId;
+    public String wishListId;
 }

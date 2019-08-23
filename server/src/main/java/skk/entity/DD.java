@@ -1,6 +1,5 @@
 package skk.entity;
 
-import com.sun.org.apache.xpath.internal.objects.XString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -13,17 +12,17 @@ public class DD {
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
     @GeneratedValue(generator = "idGenerator")
     @Column(name = "id", length = 64)
-    public String Id;
+    public String id;
 
-    @Column(name="type")
-    String type;
+    @Column(name="entryType")
+    public String entryType;
 
     @Column(name="describe")
-    String describe;
+    public String describe;
 
     @Column(name="code")
-    String code;
+    public String code;
 
-    @Column(name="value")
-    String value;
+    @Column(name="entryValue")
+    public String entryValue;
 }

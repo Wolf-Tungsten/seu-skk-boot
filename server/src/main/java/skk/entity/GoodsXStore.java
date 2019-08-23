@@ -15,8 +15,8 @@ public class GoodsXStore {
     public String id;
 
     @Column(name = "goodsId", nullable = false)
-    String goodsId;
+    public String goodsId;
 
     @Column(name="storeId", nullable = false)
-    String storeId;
+    public String storeId;
 }

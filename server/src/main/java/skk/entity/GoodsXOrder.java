@@ -15,8 +15,8 @@ public class GoodsXOrder {
     public String id;
 
     @Column(name = "goodsId", nullable = false)
-    String goodsId;
+    public String goodsId;
 
     @Column(name="orderId", nullable = false)
-    String orderId;
+    public String orderId;
 }

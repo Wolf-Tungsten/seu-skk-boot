@@ -2,32 +2,38 @@ package skk.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import skk.repository.UserRepository;
+import org.springframework.web.bind.annotation.*;
+import skk.entity.DD;
+import skk.repository.DDRepository;
 import skk.util.Response;
+import skk.util.SuccessResponse;
 
 class DDRequestBody{
-    String Id;
-    String type;
-    String describe;
-    String code;
-    String value;
+    public String entryType;
+    public String describe;
+    public String code;
+    public String entryValue;
 }
 
 @RestController
+@CrossOrigin
 @RequestMapping("/dd")
 public class DDController {
 
     @Autowired
-    private UserRepository userRepository;
+    private DDRepository DDRepository;
 
-    public @RequestMapping("/delete")
-    Response deleteEntry(@RequestBody DDRequestBody ddRequestBody){
+    public @RequestMapping("/create")
+    Response createEntry(@RequestBody DDRequestBody ddRequestBody){
 
+        DD newDD = new DD();
+        newDD.entryType = ddRequestBody.entryType;
+        newDD.describe = ddRequestBody.describe;
+        newDD.code = ddRequestBody.code;
+        newDD.entryValue = ddRequestBody.entryValue;
+        DDRepository.save(newDD);
 
-        retur r;
+        SuccessResponse r = new SuccessResponse("注册成功");
+        return r;
     }
 }

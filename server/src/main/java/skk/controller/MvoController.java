@@ -14,8 +14,8 @@ import skk.util.SuccessResponse;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mvo")
 @CrossOrigin
+@RequestMapping("/mvo")
 public class MvoController {
 
     @Autowired

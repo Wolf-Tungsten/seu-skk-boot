@@ -15,8 +15,8 @@ public class OrderXMvo {
     public String id;
 
     @Column(name = "orderId")
-    String orderID;
+    public String orderID;
 
     @Column(name="MvoId")
-    String MvoId;
+    public String MvoId;
 }
