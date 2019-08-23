@@ -296,10 +296,11 @@
       $("#passwordErrorHint").hide();
       $("#usernameErrorHint").hide();
       if(res.data.success){
+        console.log(res.data.success)
         let role = res.data.result.role
         $store.userInfo = {username,role}
         $store.token = res.data.result.token
-        axios.default.headers['x-skk-token'] = $store.token
+        axios.defaults.headers['x-skk-token'] = $store.token
         $("#loginFace").hide()
         setMenu(role)
         setNav()

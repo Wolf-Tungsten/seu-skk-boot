@@ -19,6 +19,18 @@ public class Goods {
     @Column(name = "price")
     public Integer price;
 
+    @Column(name = "length")
+    public Integer length;
+
+    @Column(name = "width")
+    public Integer width;
+
+    @Column(name = "height")
+    public Integer height;
+
+    @Column(name = "weight")
+    public Integer weight;
+
     @Column(name = "amount")
     public Integer amount;
 

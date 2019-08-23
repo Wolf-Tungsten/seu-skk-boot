@@ -12,6 +12,11 @@
     <link rel="stylesheet" href="css/ace.min.css">
     <link rel="stylesheet" href="css/ace-skins.min.css">
     <link rel="stylesheet" href="css/ace-responsive.min.css">
+    <script src="js/babel.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/axios.js"></script>
+    <script src="js/axios-helper.js"></script>
   <style>
     body,html{
       width: 100%;
@@ -36,25 +41,25 @@
 
             <div class="control-group">
               <p class="red">商品标题中包含搜索关键字，品牌名，颜色，大小，型号。</p>
-              <label class="control-label" for="form-field-1">商品标题</label>
+              <label class="control-label" for="name">商品标题</label>
               <div class="controls">
-                <input type="text" id="form-field-1" >
+                <input type="text" id="name" >
               </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="form-field-1">体积重</label>
               <div class="controls">
                 <p class="red">指邮购零售包装体积重，以仓库实际测量为准。( 100厘米=39.3700787英寸，1千克=2.2046226磅)</p>
-                长 Length <input class="input-mini" type="text" id="form-field-4" > cm
-                宽 Width <input class="input-mini" type="text" id="form-field-4" > cm
-                高 Height <input class="input-mini" type="text" id="form-field-4" > cm
-                重量 Weight <input class="input-mini" type="text" id="form-field-4" > kg
+                长 Length <input class="input-mini" type="text" id="length" > cm
+                宽 Width <input class="input-mini" type="text" id="width" > cm
+                高 Height <input class="input-mini" type="text" id="height" > cm
+                重量 Weight <input class="input-mini" type="text" id="weight" > kg
               </div>
             </div>
             <div class="control-group">
               <label class="control-label" for="form-field-1">商品sku编码</label>
               <div class="controls">
-                <input type="text" id="form-field-1">
+                <input type="text" id="sku">
               </div>
             </div>
             <p class="red">品牌商可以选择不提供UPC和EAN码
@@ -62,14 +67,14 @@
             <div class="control-group">
             <label class="control-label" for="form-field-1">upc编码</label>
             <div class="controls">
-              <input type="text" id="form-field-1">
+              <input type="text" id="upc">
               <p class="blue">UPC码也是用于商品的条码，主要用于美国和加拿大地区，UPC条码是由美国统一代码委员会制定的一种条码。出口到北美地区为了适应北美地区的需要，也需要申请UPC条码，UPC条码也有标准版和缩短版两种，标准版由12位数字构成，缩短版由8位数字构成。</p>
             </div>
           </div>
             <div class="control-group">
               <label class="control-label" for="form-field-1">ena编码</label>
               <div class="controls">
-                <input type="text" id="form-field-1">
+                <input type="text" id="ena">
                 <p class="blue">EAN码(英文全称: European Article Number)由前缀码、厂商识别码、商品项目代码和校验码组成。前缀码是国际EAN组织标识各会员组织的代码，我国为690-695；标准版表示13位数字，又称为EAN13码，缩短码表示8位数字，又称EAN8。两种条码的最后一位为校验码，由前面的12位或7位数字计算得出。</p>
               </div>
             </div>
@@ -77,7 +82,7 @@
             <div class="control-group">
               <label class="control-label" for="form-field-1">商品型号Model</label>
               <div class="controls">
-                <input type="text" id="form-field-1">
+                <input type="text" id="model">
               </div>
             </div>
 
@@ -86,7 +91,7 @@
               <p class="red">商品正式上架前，请再审阅借卖价格，并选择借卖价格有效期</p>
               <label class="control-label" for="form-field-1">借卖价格</label>
               <div class="controls">
-                <input type="text" id="form-field-1">
+                <input type="text" id="price">
               </div>
             </div>
 
@@ -94,7 +99,7 @@
               <p class="red">商品质保承诺将大大提升市场信心（可不提供）</p>
               <label class="control-label" for="form-field-1">保修期</label>
               <div class="controls">
-                <input type="text" id="form-field-1">
+                <input type="text" id="maintance">
               </div>
             </div>
 
@@ -143,7 +148,7 @@
                   <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="" style="display: none;">
                 </div>
 
-                <div id="editor" contenteditable="true">
+                <div id="ebayDescription" contenteditable="true">
                   输入内容…
                 </div>
               </div>
@@ -193,15 +198,15 @@
                   <input type="text" data-edit="inserttext" id="voiceBtn" x-webkit-speech="" style="display: none;">
                 </div>
 
-                <div id="editor" contenteditable="true">
+                <div id="amazonDescription" contenteditable="true">
                   输入内容…
                 </div>
               </div>
             </div>
 
         </form>
-        <div style="text-align: center"><button class="btn">取消 </button>
-          <button class="btn btn-primary saved">保存</button></div>
+        <div style="text-align: center"><button id="cancelBtn" class="btn">取消 </button>
+          <button id="saveBtn" class="btn btn-primary saved">保存</button></div>
       </div>
 
     </div>
