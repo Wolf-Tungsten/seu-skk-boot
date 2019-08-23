@@ -50,8 +50,8 @@ class payOrderReqBody{
 
 
 @RestController
-@RequestMapping("/bvo")
 @CrossOrigin
+@RequestMapping("/bvo")
 public class Bvocontroller {
     @Autowired
     private BvoRepository bvoRepository;
