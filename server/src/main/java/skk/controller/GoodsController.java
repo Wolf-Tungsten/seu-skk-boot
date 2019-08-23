@@ -21,10 +21,10 @@ class GoodsInfoRequestBody{
     public String token;
     public String id;
     public String name;
-    public String length;
-    public String wtidth;
-    public String height;
-    public String weight;
+    public Integer length;
+    public Integer width;
+    public Integer height;
+    public Integer weight;
     public String sku;
     public String upc;
     public String ena;
@@ -67,6 +67,10 @@ public class GoodsController {
         newgoods.ena =requestBody.ena;
         newgoods.upc = requestBody.upc;
         newgoods.name = requestBody.name;
+        newgoods.weight = requestBody.weight;
+        newgoods.height = requestBody.height;
+        newgoods.length = requestBody.length;
+        newgoods.width = requestBody.width;
         goodsRepository.save(newgoods);
         return new SuccessResponse("success");
     }
