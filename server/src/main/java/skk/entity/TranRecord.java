@@ -5,7 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="tranRecord")
+@Table(name="tranrecord")
 public class TranRecord {
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
@@ -13,13 +13,13 @@ public class TranRecord {
     @Column(name = "id", length = 64)
     public String id;
 
-    @Column(name = "from")
+    @Column(name = "fromId")
     public String fromId;
 
-    @Column(name = "to")
+    @Column(name = "toId")
     public String toId;
 
     @Column(name = "cost")
-    public Integer cost;
+    public int cost;
 
 }
