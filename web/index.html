@@ -222,8 +222,10 @@
 <script src="js/babel.min.js"></script>
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/bootstrap.min.js"></script>
+<script src="js/config.js"></script>
 <script src="js/store.js"></script>
 <script src="js/axios.js"></script>
+<script src="js/axios-helper.js"></script>
 <script>
   $('.nav-list li ').click(function () {
     $(this).addClass('blue').siblings().removeClass('blue');
@@ -297,6 +299,7 @@
         let role = res.data.result.role
         $store.userInfo = {username,role}
         $store.token = res.data.result.token
+        axios.default.headers['x-skk-token'] = $store.token
         $("#loginFace").hide()
         setMenu(role)
         setNav()

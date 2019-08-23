@@ -91,7 +91,7 @@ $(document).ready(function(){
         let username = $("#username").val()
         let password = $("#password").val()
         let role = $("#role").val()
-        let res = await axios.post($server+'signup', {username, password})
+        let res = await axios.post($server+'signup', {username, password, role})
         if(!res.data.success){
             if(res.data.reason.indexOf('用户名') != -1){
                 $("#username").addClass("is-invalid")
