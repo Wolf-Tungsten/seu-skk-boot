@@ -20,7 +20,7 @@
             <form id="signup">
                 <div class="form-group">
                     <label for="username">用户名</label>
-                    <input type="text" class="form-control" id="username" placeholder="请输入用户名" name="username">
+                    <input id="username" type="text" class="form-control" id="username" placeholder="请输入用户名" name="username">
                     <div class="invalid-feedback">
                         用户名已被占用
                     </div>
@@ -28,14 +28,14 @@
 
                 <div class="form-group">
                     <label for="password">密码</label>
-                    <input type="password" class="form-control" id="password" placeholder="请设置密码（至少6位）" name="password">
+                    <input id="password" type="password" class="form-control" id="password" placeholder="请设置密码（至少6位）" name="password">
                     <div class="invalid-feedback">
                         密码长度不足
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="passwordConfirm">确认密码</label>
-                    <input type="password" class="form-control" id="password-confirm" placeholder="请再次输入相同密码" name="passwordConfirm">
+                    <input id="passwordConfirm" type="password" class="form-control" id="password-confirm" placeholder="请再次输入相同密码" name="passwordConfirm">
                     <div class="invalid-feedback">
                         两次密码输入不匹配
                     </div>
@@ -51,16 +51,60 @@
             </form>
             
         </div>
-        <button style="width: 280px; margin-top: 30px;"type="button" class="btn btn-primary">点击注册</button>
+        <button id="signupBtn" style="width: 280px; margin-top: 30px;"type="button" class="btn btn-primary">点击注册</button>
     </div>
 </body>
 <script src="js/babel.min.js"></script>
 <script src="js/jquery-1.9.1.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/store.js"></script>
-
+<script src="js/config.js"></script>
+<script src="js/axios.js"></script>
 <script>
+$(document).ready(function(){
+    $("#signupBtn").attr("disabled", "true")
 
+    $("#password").change((e)=>{
+        if(e.target.value.length < 8){
+            $("#password").addClass("is-invalid")
+            $("#signupBtn").attr("disabled", "true")
+        } else {
+            $("#password").removeClass("is-invalid")
+            $("#signupBtn").removeAttr("disabled")
+        }
+    })
+
+    $("#passwordConfirm").change((e)=>{
+        if(e.target.value != $("#password").val()){
+            $("#passwordConfirm").addClass("is-invalid")
+            $("#signupBtn").attr("disabled", "true")
+        } else {
+            $("#passwordConfirm").removeClass("is-invalid")
+            $("#signupBtn").removeAttr("disabled")
+        }
+    })
+
+    $("#signupBtn").click(async ()=>{
+        $("#password").removeClass("is-invalid")
+        $("#passwordConfirm").removeClass("is-invalid")
+        $("#username").removeClass("is-invalid")
+        let username = $("#username").val()
+        let password = $("#password").val()
+        let role = $("#role").val()
+        let res = await axios.post($server+'signup', {username, password})
+        if(!res.data.success){
+            if(res.data.reason.indexOf('用户名') != -1){
+                $("#username").addClass("is-invalid")
+            }
+            if(res.data.reason.indexOf('密码') != -1){
+                $("#password").addClass("is-invalid")
+            }
+        } else {
+            alert("注册成功！")
+            window.location = "index.html"
+        }
+    })
+})
 </script>
 
 </html>
