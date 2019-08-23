@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/mvo")
 @CrossOrigin
+@RequestMapping("/mvo")
 public class MvoController {
 
     @Autowired

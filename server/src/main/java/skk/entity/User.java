@@ -5,13 +5,14 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name ="user")
 public class User {
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
     @GeneratedValue(generator = "idGenerator")
     @Column(name = "id", length = 64)
     public String id;
+
 
     @Column(name = "username", unique = true, nullable = false, length = 64)
     public String username;
@@ -24,6 +25,4 @@ public class User {
 
     @Column(name = "token", length = 255, nullable = true)
     public String token;
-
-
 }
