@@ -8,9 +8,12 @@ import skk.repository.DDRepository;
 import skk.util.Response;
 import skk.util.SuccessResponse;
 
+import java.util.List;
+
 class DDRequestBody{
+    public String id;
     public String entryType;
-    public String describe;
+    public String entryDescribe;
     public String code;
     public String entryValue;
 }
@@ -21,19 +24,37 @@ class DDRequestBody{
 public class DDController {
 
     @Autowired
-    private DDRepository DDRepository;
+    private DDRepository ddRepository;
 
-    public @RequestMapping("/create")
-    Response createEntry(@RequestBody DDRequestBody ddRequestBody){
+    @RequestMapping("/addOrUpdate")
+    public Response createEntry(@RequestBody DDRequestBody req){
 
         DD newDD = new DD();
-        newDD.entryType = ddRequestBody.entryType;
-        newDD.describe = ddRequestBody.describe;
-        newDD.code = ddRequestBody.code;
-        newDD.entryValue = ddRequestBody.entryValue;
-        DDRepository.save(newDD);
+        newDD.id = req.id;
+        newDD.entryType = req.entryType;
+        newDD.entryDescribe = req.entryDescribe;
+        newDD.code = req.code;
+        newDD.entryValue = req.entryValue;
+        ddRepository.save(newDD);
+        List<DD> list = ddRepository.findAll();
+        SuccessResponse r = new SuccessResponse(list);
+        return r;
+    }
 
-        SuccessResponse r = new SuccessResponse("注册成功");
+    @RequestMapping("/delete")
+    public Response deleteEntry(@RequestBody DDRequestBody req){
+
+        ddRepository.deleteById(req.id);
+        List<DD> list = ddRepository.findAll();
+        SuccessResponse r = new SuccessResponse(list);
+        return r;
+    }
+
+    @RequestMapping("/all")
+    public Response showAll(){
+
+        List<DD> list = ddRepository.findAll();
+        SuccessResponse r = new SuccessResponse(list);
         return r;
     }
 }

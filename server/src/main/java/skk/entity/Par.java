@@ -5,8 +5,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "DD")
-public class DD {
+@Table(name = "Par")
+public class Par {
 
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
@@ -14,15 +14,12 @@ public class DD {
     @Column(name = "id", length = 64)
     public String id;
 
-    @Column(name="entryType")
-    public String entryType;
+    @Column(name="parKey")
+    public String parKey;
 
-    @Column(name="entryDescribe")
-    public String entryDescribe;
+    @Column(name="parValue")
+    public String parValue;
 
-    @Column(name="code")
-    public String code;
-
-    @Column(name="entryValue")
-    public String entryValue;
+    @Column(name="parDescribe")
+    public String parDescribe;
 }

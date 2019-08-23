@@ -22,4 +22,16 @@ public class TranRecord {
     @Column(name = "cost")
     public int cost;
 
+    @Column(name = "date")
+    public String date;
+
+    @Column(name = "state")
+    public int state; //0未审核 1审核未通过 2审核并通过
+
+    @Column(name = "reason")
+    public String reason;
+
+    @Column(name = "memo")
+    public String memo;
+
 }
