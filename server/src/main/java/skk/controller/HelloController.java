@@ -1,8 +1,6 @@
 package skk.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import skk.User;
 
 @RestController
 @RequestMapping("/hello")
