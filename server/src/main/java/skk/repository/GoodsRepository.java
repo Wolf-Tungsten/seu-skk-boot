@@ -9,4 +9,5 @@ public interface GoodsRepository extends CrudRepository<Goods,String> {
     List<Goods> findByName(String name);
     List<Goods> findAllByNameLike(String name);
     void deleteById(String id);
+    Goods findAllById(String id);
 }
