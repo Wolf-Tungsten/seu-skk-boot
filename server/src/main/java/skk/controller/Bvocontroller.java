@@ -2,14 +2,8 @@ package skk.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import skk.entity.Bvo;
-import skk.entity.BvoWish;
-import skk.entity.Goods;
-import skk.entity.Order;
-import skk.repository.BvoRepository;
-import skk.repository.BvowishRepository;
-import skk.repository.GoodsRepository;
-import skk.repository.OrderRepository;
+import skk.entity.*;
+import skk.repository.*;
 import skk.util.Response;
 import skk.util.SuccessResponse;
 
@@ -61,6 +55,8 @@ public class Bvocontroller {
     private GoodsRepository goodsRepository;
     @Autowired
     private OrderRepository orderRepository;
+    @Autowired
+    private OrderXBvoRepository orderXBvoRepository;
 
 
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
@@ -150,17 +146,22 @@ public class Bvocontroller {
     @RequestMapping("/initOrders")
     public @ResponseBody
     Response buyGoods(){
-
-        Order newOrder1 = new Order("1234","电炖锅",60,50,"QK123456",
+        String userId = "";
+        Order newOrder1 = new Order(userId,"电炖锅",60,50,"QK123456",
                 3000,1,"2017-23-02 19:00:20");
-        Order newOrder2 = new Order("2567","李永乐线代讲义",10,50,"QK123456",
+        Order newOrder2 = new Order(userId,"李永乐线代讲义",10,50,"QK123456",
                 500,1,"2017-23-02 19:00:20");
-        Order newOrder3 = new Order("2567","李永乐线代讲义",10,50,"QK123456",
+        Order newOrder3 = new Order(userId,"李永乐线代讲义",10,50,"QK123456",
                 500,1,"2017-23-02 19:00:20");
-        //后续还需添加 BvoXOder关系的初始化
         orderRepository.save(newOrder1);
         orderRepository.save(newOrder2);
         orderRepository.save(newOrder3);
+        Iterable<Order> orderIterable = orderRepository.findAll();
+        Iterator<Order> itr = orderIterable.iterator();
+        while (itr.hasNext()){
+            OrderXBvo oxb = new OrderXBvo(userId,itr.next().id);
+            orderXBvoRepository.save(oxb);
+        }
         return new SuccessResponse("initSuccess");
     }
 
@@ -171,10 +172,13 @@ public class Bvocontroller {
     Response payOrder(@RequestBody payOrderReqBody reqBody){
         String orderUid = reqBody.OrderUid;
         String goodsUid = reqBody.goodsId;
+        Order bvoOrder = orderRepository.findAllById(orderUid);
+        Goods goods = goodsRepository.findAllById(goodsUid);
+        Order mvoOrder = new Order(goods.mvoid,bvoOrder.title,bvoOrder.price,
+                bvoOrder.qty,bvoOrder.sku,bvoOrder.totalprice,bvoOrder.state,bvoOrder.date);
+        orderRepository.save(mvoOrder);
         return new SuccessResponse("success");
-
     }
-
 
 }
 

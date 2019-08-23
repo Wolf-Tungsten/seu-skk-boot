@@ -8,6 +8,9 @@ import javax.persistence.*;
 @Table(name ="OrderXBvo")
 public class OrderXBvo {
 
+
+
+
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
     @GeneratedValue(generator = "idGenerator")
@@ -19,4 +22,12 @@ public class OrderXBvo {
 
     @Column(name="BvoId")
     public String BvoId;
+
+    public OrderXBvo(String orderID,String BvoId){
+        this.orderID = orderID;
+        this.BvoId = BvoId;
+    }
+    public OrderXBvo(){
+
+    }
 }

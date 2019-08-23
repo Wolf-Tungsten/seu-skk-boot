@@ -19,4 +19,12 @@ public class OrderXMvo {
 
     @Column(name="MvoId")
     public String MvoId;
+
+    public OrderXMvo(){
+
+    }
+    public OrderXMvo(String orderID,String Mvoid){
+        this.orderID = orderID;
+        this.MvoId = Mvoid;
+    }
 }

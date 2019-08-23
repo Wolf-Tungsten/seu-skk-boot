@@ -4,14 +4,22 @@ import org.hibernate.annotations.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import skk.entity.Goods;
+import skk.entity.User;
+import skk.repository.BvoRepository;
 import skk.repository.GoodsRepository;
+import skk.repository.UserRepository;
+import skk.util.FailedResponse;
 import skk.util.Response;
 import skk.util.SuccessResponse;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 class GoodsInfoRequestBody{
+    public String token;
+    public String id;
     public String name;
     public String length;
     public String wtidth;
@@ -35,13 +43,23 @@ class GoodsInfoRequestBody{
 public class GoodsController {
     @Autowired
     private GoodsRepository goodsRepository;
-
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private BvoRepository bvoRepository;
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/addgoods")
     public @ResponseBody
-    Response addgoods (@RequestBody GoodsInfoRequestBody requestBody) {
-        //各种判断
+    Response addgoods (@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,@RequestBody GoodsInfoRequestBody requestBody) {
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证过期，请重新登录");
+            return r;
+        }
+
+
         Goods newgoods = new Goods();
+        newgoods.mvoid = bvoRepository.findAllByUserid(user.id).id;
         newgoods.price = requestBody.price;
         newgoods.adis = requestBody.amazondis;
         newgoods.edis = requestBody.ebaydis;
@@ -61,11 +79,22 @@ public class GoodsController {
     @RequestMapping("/searchgoods")
     public @ResponseBody
     Response searchlike(@RequestParam String name){
-        String str = "%";
-        str +=name;
-        str +="%";
-        List<Goods> goodslist = goodsRepository.findAllByNameLike(str);
-        return new SuccessResponse(goodslist);
+        if(name.equals("")){
+            List<Goods> goodsList = new LinkedList<>();
+            Iterable<Goods> iterable = goodsRepository.findAll();
+            Iterator<Goods> itr = iterable.iterator();
+            while (itr.hasNext()){
+                goodsList.add(itr.next());
+            }
+            return new SuccessResponse(goodsList);
+        }
+        else{
+            String str = "%";
+            str += name;
+            str += "%";
+            List<Goods> goodslist = goodsRepository.findAllByNameLike(str);
+            return new SuccessResponse(goodslist);
+        }
     }
 
     @GetMapping
@@ -82,5 +111,14 @@ public class GoodsController {
     Response deleteById(@RequestParam String id){
         goodsRepository.deleteById(id);
         return new SuccessResponse("deleter success");
+    }
+
+    User getUserInfo(String token){
+        List<User> users = userRepository.findByToken(token);
+        if(users.size()==1){
+            return users.get(0);
+        }else{
+            return null;
+        }
     }
 }
