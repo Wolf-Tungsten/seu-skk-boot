@@ -35,6 +35,7 @@ class GoodsInfoRequestBody{
 public class GoodsController {
     @Autowired
     private GoodsRepository goodsRepository;
+
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/addgoods")
     public @ResponseBody
@@ -52,6 +53,10 @@ public class GoodsController {
         return new SuccessResponse("success");
     }
 
+
+    /**
+     根据商品名模糊查询
+     */
     @GetMapping
     @RequestMapping("/searchgoods")
     public @ResponseBody
@@ -60,12 +65,9 @@ public class GoodsController {
         str +=name;
         str +="%";
         List<Goods> goodslist = goodsRepository.findAllByNameLike(str);
-        System.out.println(goodslist.size());
-        for (int i =0;i<goodslist.size();i++){
-            System.out.println(goodslist.get(i).name);
-        }
         return new SuccessResponse(goodslist);
     }
+
     @GetMapping
     @RequestMapping("/deleteAll")
     public @ResponseBody
@@ -74,4 +76,11 @@ public class GoodsController {
         return new SuccessResponse("deleter success");
     }
 
+    @GetMapping
+    @RequestMapping("/deletebyId")
+    public @ResponseBody
+    Response deleteById(@RequestParam String id){
+        goodsRepository.deleteById(id);
+        return new SuccessResponse("deleter success");
+    }
 }
