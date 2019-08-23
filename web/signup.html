@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="UTF-8">
+    <title>跨境电商借卖平台-用户注册</title>
+</head>
+
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+
+<style>
+</style>
+
+<body>
+    <div class="container" style="display: flex;flex-direction: column; align-items: center;">
+        <h3 style="margin-top:80px;">欢迎来到宋凯坤跨境电商走私平台</h3>
+        <h2 class="text-primary" style="margin-top:20px;">新用户注册</h2>
+        <div style="margin-top:30px; width: 280px;">
+            <form id="signup">
+                <div class="form-group">
+                    <label for="username">用户名</label>
+                    <input type="text" class="form-control" id="username" placeholder="请输入用户名" name="username">
+                    <div class="invalid-feedback">
+                        用户名已被占用
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">密码</label>
+                    <input type="password" class="form-control" id="password" placeholder="请设置密码（至少6位）" name="password">
+                    <div class="invalid-feedback">
+                        密码长度不足
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="passwordConfirm">确认密码</label>
+                    <input type="password" class="form-control" id="password-confirm" placeholder="请再次输入相同密码" name="passwordConfirm">
+                    <div class="invalid-feedback">
+                        两次密码输入不匹配
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="role">选择角色</label>
+                    <select id="role" class="custom-select" required name="role">
+                      <option value="mvo">品牌商</option>
+                      <option value="bvo">借卖方</option>
+                    </select>
+                  </div>
+                  
+            </form>
+            
+        </div>
+        <button style="width: 280px; margin-top: 30px;"type="button" class="btn btn-primary">点击注册</button>
+    </div>
+</body>
+<script src="js/babel.min.js"></script>
+<script src="js/jquery-1.9.1.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/store.js"></script>
+
+<script>
+
+</script>
+
+</html>
