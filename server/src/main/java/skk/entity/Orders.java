@@ -6,8 +6,8 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="order")
-public class Order {
+@Table(name="orders")
+public class Orders {
 
     //对于借卖方而言的订单状态
     //订单处于待支付状态
@@ -23,10 +23,10 @@ public class Order {
     //订单完成状态
     public final int COMPLIETE = 3;
 
-    public Order(){
+    public Orders(){
 
     }
-    public Order(String userId,String title,Integer price,Integer qty,String sku,Integer totalprice,Integer state,String date) {
+    public Orders(String userId, String title, Integer price, Integer qty, String sku, Integer totalprice, Integer state, String date) {
         this.userId = userId;
         this.title = title;
         this.price = price;
@@ -73,7 +73,7 @@ public class Order {
     public Integer createTimeStamp;
 
     //时间..
-    @Column(name = "createTime")
+    @Column(name = "createdate")
     public String date;
 
 }

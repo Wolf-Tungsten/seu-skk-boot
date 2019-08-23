@@ -1,8 +1,11 @@
 package skk.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import skk.entity.Order;
+import skk.entity.Orders;
 
-public interface OrderRepository extends CrudRepository<Order,String> {
-    Order findAllById(String id);
+import java.util.List;
+
+public interface OrderRepository extends CrudRepository<Orders,String> {
+    Orders findAllById(String id);
+    List<Orders> findAllByUserId(String id);
 }

@@ -8,7 +8,6 @@ import skk.util.FailedResponse;
 import skk.util.Response;
 import skk.util.SuccessResponse;
 
-import java.sql.Timestamp;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -182,38 +181,56 @@ public class Bvocontroller {
     public @ResponseBody
     Response buyGoods(){
         String userId = "";
-        Order newOrder1 = new Order(userId,"电炖锅",60,50,"QK123456",
+        Orders newOrder1 = new Orders(userId,"电炖锅",60,50,"QK123456",
                 3000,1,"2017-23-02 19:00:20");
-        Order newOrder2 = new Order(userId,"李永乐线代讲义",10,50,"QK123456",
+        Orders newOrder2 = new Orders(userId,"李永乐线代讲义",10,50,"QK123456",
                 500,1,"2017-23-02 19:00:20");
-        Order newOrder3 = new Order(userId,"李永乐线代讲义",10,50,"QK123456",
+        Orders newOrder3 = new Orders(userId,"李永乐线代讲义",10,50,"QK123456",
                 500,1,"2017-23-02 19:00:20");
         orderRepository.save(newOrder1);
         orderRepository.save(newOrder2);
         orderRepository.save(newOrder3);
-        Iterable<Order> orderIterable = orderRepository.findAll();
-        Iterator<Order> itr = orderIterable.iterator();
+        Iterable<Orders> orderIterable = orderRepository.findAll();
+        Iterator<Orders> itr = orderIterable.iterator();
         while (itr.hasNext()){
             OrderXBvo oxb = new OrderXBvo(userId,itr.next().id);
             orderXBvoRepository.save(oxb);
         }
         return new SuccessResponse("initSuccess");
     }
+    //借卖方订单显示
+    @GetMapping
+    @RequestMapping("/showOrder")
+    public @ResponseBody
+    Response showOrders(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token){
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
+        List<Orders> orderList = orderRepository.findAllByUserId(user.id);
+        return new SuccessResponse(orderList);
+    }
 
     //借卖方订单支付
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/payOrder")
     public @ResponseBody
-    Response payOrder(@RequestBody payOrderReqBody reqBody){
+    Response payOrder(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,@RequestBody payOrderReqBody reqBody){
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
         String orderUid = reqBody.OrderUid;
         String goodsUid = reqBody.goodsId;
-        Order bvoOrder = orderRepository.findAllById(orderUid);
+        Orders bvoOrder = orderRepository.findAllById(orderUid);
         Goods goods = goodsRepository.findAllById(goodsUid);
-        Order mvoOrder = new Order(goods.mvoid,bvoOrder.title,bvoOrder.price,
+        Orders mvoOrder = new Orders(goods.mvoid,bvoOrder.title,bvoOrder.price,
                 bvoOrder.qty,bvoOrder.sku,bvoOrder.totalprice,bvoOrder.state,bvoOrder.date);
         orderRepository.save(mvoOrder);
         return new SuccessResponse("success");
     }
-
+    //
 }
 
