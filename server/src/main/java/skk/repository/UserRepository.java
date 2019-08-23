@@ -8,4 +8,5 @@ import java.util.List;
 public interface UserRepository extends CrudRepository<User, String> {
     int countByUsername(String username);
     List<User> findByToken(String token);
+
 }
