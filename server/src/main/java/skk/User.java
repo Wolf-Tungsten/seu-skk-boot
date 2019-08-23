@@ -1,18 +1,18 @@
 package skk;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 @Entity // This tells Hibernate to make a table out of this class
 public class User {
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+	@GenericGenerator(name="user_id",strategy = "uuid")
+    @GeneratedValue(generator = "user_id")
     private Integer id;
-
+    @Column(name="name")
     private String name;
-
+    @Column(name="email")
     private String email;
 
 	public Integer getId() {
