@@ -47,7 +47,7 @@
 
         <tbody>
           <tr>
-            <td><a id="accountName" >ace.com</a></td>
+            <td><a id="accountName" ></a></td>
             <td id="balance"></td>
             <td class="center">
               <div class="inline position-relative">
@@ -80,20 +80,20 @@
                 <div class="control-group">
                   <label class="control-label" for="form-field-1">Deposit Amount：$</label>
                   <div class="controls">
-                    <input type="text" id="form-field-1">
+                    <input type="text" id="depositValue">
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label" for="form-field-1">Password：</label>
                   <div class="controls">
-                    <input type="password" id="form-field-1">
+                    <input type="password" id="depositPassword">
                   </div>
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal">confirm</button>
+              <button id="depositBtn" type="button" class="btn btn-primary" data-dismiss="modal">confirm</button>
             </div>
           </div>
         </div>
@@ -114,20 +114,20 @@
                 <div class="control-group">
                   <label class="control-label" for="form-field-1">old password</label>
                   <div class="controls">
-                    <input type="password" id="form-field-1">
+                    <input type="password" id="oldPwd">
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label" for="form-field-1">new password：</label>
                   <div class="controls">
-                    <input type="password" id="form-field-1">
+                    <input type="password" id="newPwd">
                   </div>
                 </div>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">cancek</button>
-              <button type="button" class="btn btn-primary" data-dismiss="modal">confirm</button>
+              <button id="modifyPasswordBtn" type="button" class="btn btn-primary" data-dismiss="modal">confirm</button>
             </div>
           </div>
         </div>
@@ -138,7 +138,7 @@
   <script src="js/bootstrap.min.js"></script>
   <script>
     $(function () {
-
+      var walletId = ""
       $('.history').click(function () {
         window.location.href = "bvo-gmcwallerAcountList.html"
       })
@@ -148,7 +148,35 @@
               let data = res.data.result
               $("#accountName").text(data.accountName)
               $("#balance").text('$'+data.balance)
+              walletId = data.id
           }
+      })
+
+      // 提现功能
+      $("#depositBtn").click(function(){
+        let operation = 1
+        let password = $("#depositPassword").val()
+        let cost = $("#depositValue").val()
+        axios.post($server + "tran/addTran", {walletId, operation, password, cost}).then(function(res){
+          if(res.data.success){
+            alert("提现已发起，请等待管理员审核")
+          } else {
+            alert(res.data.reason)
+          }
+        })
+      })
+
+      // 密码重制功能
+      $("#modifyPasswordBtn").click(function(){
+        let oldPwd = $("#oldPwd").val()
+        let newPwd = $("#newPwd").val()
+        axios.post($server +"wallet/modifyPwd", {oldPwd, newPwd}).then(function(res){
+          if(res.data.success){
+            alert("密码修改成功")
+          } else {
+            alert(res.data.reason)
+          }
+        })
       })
     })
 

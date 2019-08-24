@@ -87,9 +87,10 @@ public class WalletController
             return new FailedResponse("身份认证失效，请重新登录");
         }
         Wallet wallet = walletRepository.findAllByUserid(user.id).get(0);
-        if(reqbody.oldPwd.equals(wallet.password))
+        if(reqbody.oldPwd.equals(wallet.password)) {
             wallet.password = reqbody.newPwd;
-        else{
+            walletRepository.save(wallet);
+        }else{
             return new FailedResponse("旧密码错误");
         }
         return new SuccessResponse("修改成功!");
