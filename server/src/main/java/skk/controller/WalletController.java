@@ -17,6 +17,10 @@ class WalletSignupRequestBody {
     public String password;
     public String email;
 }
+class ModifyWalletPwdReqBody{
+    public String oldPwd;
+    public String newPwd;
+}
 
 @RestController
 @RequestMapping("/wallet")
@@ -46,29 +50,46 @@ public class WalletController
         if(user == null){
             return new FailedResponse("身份认证失效，请重新登录");
         }
+        List<Wallet> wl = walletRepository.findAllByUserid(user.id);
+        if(wl.size()!=0)return new FailedResponse("您已有账户");
         Wallet newWallet = new Wallet();
         newWallet.userid = user.id;
         newWallet.accountName = requestBody.accountName;
         newWallet.email = requestBody.email;
         newWallet.password = requestBody.password;
-        newWallet.balance = 0;
         walletRepository.save(newWallet);
 
         SuccessResponse r = new SuccessResponse("钱包注册成功");
         return r;
     }
+    @PostMapping(consumes = "application/json;charset=utf-8", produces = "application/json;charset=utf-8")
+    @RequestMapping("modifyPwd")
+    Response modifyPassWord(@RequestHeader(name = "x-skk-token",required = false,defaultValue = "null")String token,
+        @RequestBody ModifyWalletPwdReqBody reqbody){
+        User user = getUserInfo(token);
+        if(user == null){
+            return new FailedResponse("身份认证失效，请重新登录");
+        }
+        Wallet wallet = walletRepository.findAllByUserid(user.id).get(0);
+        if(reqbody.oldPwd.equals(wallet.password))
+            wallet.password = reqbody.newPwd;
+        else{
+            return new FailedResponse("旧密码错误");
+        }
+        return new SuccessResponse("修改成功!");
 
+    }
     //查询账户的余额,返回一个
+    @GetMapping
     @RequestMapping("/show")
-    Response show (@RequestHeader(name = "x-skk-token",required = false,defaultValue = "null")String token,
-                     @RequestBody WalletSignupRequestBody requestBody) {
+    Response show (@RequestHeader(name = "x-skk-token",required = false,defaultValue = "null")String token
+                    ) {
 
         User user = getUserInfo(token);
         if(user == null) {
-            FailedResponse response = new FailedResponse("身份认证失效，请重新登录");
+            return new FailedResponse("身份认证失效，请重新登录");
         }
-        Wallet newWallet = new Wallet();
-        newWallet = walletRepository.findByuserid(user.id).get();
-        return new SuccessResponse(newWallet);
+        List<Wallet> walletList = walletRepository.findAllByUserid(user.id);
+        return  new SuccessResponse(walletList.get(0));
     }
 }

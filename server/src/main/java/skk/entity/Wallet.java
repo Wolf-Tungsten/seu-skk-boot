@@ -6,7 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="store")
+@Table(name="wallet")
 public class Wallet {
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")
@@ -29,6 +29,6 @@ public class Wallet {
 
     //账户余额
     @Column(name = "balance",nullable = false)
-    public Integer balance;
+    public Integer balance = 100000;
 
 }
