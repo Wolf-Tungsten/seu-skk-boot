@@ -32,7 +32,7 @@ public class GoodsController {
     @Autowired
     private BvoRepository bvoRepository;
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
-    @RequestMapping("/addgoods")
+    @RequestMapping("/post")
     public @ResponseBody
     Response addgoods (@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,@RequestBody GoodsInfoRequestBody requestBody) {
         User user = getUserInfo(token);
@@ -69,7 +69,7 @@ public class GoodsController {
      根据商品名模糊查询
      */
     @GetMapping
-    @RequestMapping("/searchgoods")
+    @RequestMapping("/search")
     public @ResponseBody
     Response searchlike(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,@RequestParam String name){
         User user = getUserInfo(token);

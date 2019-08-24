@@ -26,8 +26,9 @@ public class Orders {
     public Orders(){
 
     }
-    public Orders(String userId, String title, Integer price, Integer qty, String sku, Integer totalprice, Integer state, String date) {
-        this.userId = userId;
+    public Orders(String bvoId,String mvoId, String title, Integer price, Integer qty, String sku, Integer totalprice, Integer state, String date) {
+        this.bvoId = bvoId;
+        this.mvoId = mvoId;
         this.title = title;
         this.price = price;
         this.qty = qty;
@@ -42,9 +43,18 @@ public class Orders {
     @GeneratedValue(generator = "idGenerator")
     @Column(name = "id", length = 64)
     public String id;
-    //可以是品牌商和借卖方
-    @Column(name = "userId")
-    public String userId;
+
+    @Column(name = "mvoId")
+    public String mvoId;
+
+
+    @Column(name = "bvoId")
+    public String bvoId;
+
+
+    @Column(name = "goodsId")
+    public String goodsId;
+
     //商品标题
     @Column(name = "title")
     public String title;
