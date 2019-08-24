@@ -13,12 +13,16 @@ import skk.util.SuccessResponse;
 
 import java.util.List;
 
-class DDRequestBody{
+class CreateOrUpdateDDRequestBody{
     public String id;
     public String entryType;
     public String entryDescribe;
     public String code;
     public String entryValue;
+}
+
+class DeleteDDRequestBody{
+    public String id;
 }
 
 @RestController
@@ -57,7 +61,7 @@ public class DDController {
 
     public @PostMapping(path = "/entry")
     Response createEntry(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
-                                @RequestBody DDRequestBody req){
+                                @RequestBody CreateOrUpdateDDRequestBody req){
 
         User user = getUserInfo(token);
         if(user == null){
@@ -78,7 +82,7 @@ public class DDController {
 
     public @DeleteMapping(path = "/entry")
     Response deleteEntry(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
-                                @RequestBody DDRequestBody req){
+                                @RequestBody DeleteDDRequestBody req){
 
         User user = getUserInfo(token);
         if(user == null){

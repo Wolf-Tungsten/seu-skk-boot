@@ -14,16 +14,25 @@ import skk.util.SuccessResponse;
 
 import java.util.*;
 
-class TranRequestBody{
+class CreateTranRequestBody{
+    public Integer operation;
+    public String walletId;
+    public String password;
+    public Integer cost;
+}
+
+class UpdateTranRequestBody{
     public String id;
     public Integer operation;
     public String walletId;
-    public Integer cost;
-    public Date date;
+    public String password;
     public Integer state;
     public String reason;
     public String memo;
-    public String password;
+}
+
+class SearchTranRequestBody{
+    public String walletId;
 }
 
 @RestController
@@ -66,7 +75,7 @@ public class TranRecordController {
 
     public @GetMapping(path = "/findTran")
     Response findTran(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
-                      @RequestBody TranRequestBody req){
+                      @RequestBody SearchTranRequestBody req){
 
         User user = getUserInfo(token);
         if(user == null){
@@ -82,7 +91,7 @@ public class TranRecordController {
 
     public @PostMapping(path = "/addTran")
     Response addTran(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
-                     @RequestBody TranRequestBody req){
+                     @RequestBody CreateTranRequestBody req){
 
         User user = getUserInfo(token);
         if(user == null){
@@ -109,7 +118,7 @@ public class TranRecordController {
 
     public @PostMapping(path = "/updateTran")
     Response updateState(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
-                         @RequestBody TranRequestBody req){
+                         @RequestBody UpdateTranRequestBody req){
 
         User user = getUserInfo(token);
         if(user == null){
@@ -117,23 +126,22 @@ public class TranRecordController {
             return r;
         }
 
-        TranRecord newTran = new TranRecord();
+        TranRecord t = tranRepository.findById(req.id).get();
         if(req.state == 1){
             Wallet w = walletRepository.findById(req.walletId).get();
-            if(req.operation == 0)
-                w.balance += req.cost;
-            if(req.operation == 1) {
-                if (w.balance > req.cost)
+            if(t.operation == 0)
+                w.balance += t.cost;
+            if(t.operation == 1) {
+                if (w.balance < t.cost)
                     return new SuccessResponse("余额不足");
-                w.balance -= req.cost;
+                w.balance -= t.cost;
             }
             walletRepository.save(w);
         }
-        newTran.id = req.id;
-        newTran.state = req.state;
-        newTran.reason = req.reason;
-        newTran.memo = req.memo;
-        tranRepository.save(newTran);
+        t.state = req.state;
+        t.reason = req.reason;
+        t.memo = req.memo;
+        tranRepository.save(t);
 
         return new SuccessResponse("审核成功");
     }

@@ -13,11 +13,15 @@ import skk.util.SuccessResponse;
 import java.util.List;
 
 
-class ParRequestBody{
+class CreateOrUpdateParRequestBody{
     public String id;
     public String parKey;
     public String parValue;
     public String parDescribe;
+}
+
+class DeleteParRequestBody{
+    public String id;
 }
 
 @RestController
@@ -56,7 +60,7 @@ public class ParController {
 
     public @PostMapping(path = "/parameter")
     Response createEntry(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
-                         @RequestBody ParRequestBody req){
+                         @RequestBody CreateOrUpdateParRequestBody req){
 
         User user = getUserInfo(token);
         if(user == null){
@@ -76,7 +80,7 @@ public class ParController {
 
     public @DeleteMapping(path = "/parameter")
     Response deleteEntry(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
-                         @RequestBody DDRequestBody req){
+                         @RequestBody DeleteParRequestBody req){
 
         User user = getUserInfo(token);
         if(user == null){
