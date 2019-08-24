@@ -40,6 +40,22 @@ public class WalletController
             return null;
         }
     }
+    //钱包存在判断
+    @GetMapping
+    @RequestMapping("walletExist")
+    public @ResponseBody
+    Response walletExist(@RequestHeader(name = "x-skk-token",required = false,defaultValue = "null")String token){
+        User user = getUserInfo(token);
+        if(user == null){
+            return new FailedResponse("身份认证失效，请重新登录");
+        }
+        if (walletRepository.findAllByUserid(user.id).size()!=0){
+            return new SuccessResponse("钱包存在");
+        }else {
+            return new FailedResponse("钱包不存在");
+        }
+    }
+
 
     @PostMapping(consumes = "application/json;charset=utf-8", produces = "application/json;charset=utf-8")
     @RequestMapping("/signup")
@@ -59,7 +75,6 @@ public class WalletController
         newWallet.email = requestBody.email;
         newWallet.password = requestBody.password;
         walletRepository.save(newWallet);
-
         SuccessResponse r = new SuccessResponse("钱包注册成功");
         return r;
     }
@@ -78,8 +93,8 @@ public class WalletController
             return new FailedResponse("旧密码错误");
         }
         return new SuccessResponse("修改成功!");
-
     }
+
     //查询账户的余额,返回一个
     @GetMapping
     @RequestMapping("/show")
