@@ -148,6 +148,16 @@ public class GoodsController {
         goodsRepository.deleteById(id);
         return new SuccessResponse("deleter success");
     }
+    @PostMapping
+    @RequestMapping("changeGoodsState")
+    public @ResponseBody
+    Response changeGoodsState(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
+                              @RequestBody GoodsStateChangeReqBody reqBody ){
+        Goods goods = goodsRepository.findAllById(reqBody.goodsid);
+        goods.state = reqBody.state;
+        goodsRepository.save(goods);
+        return new SuccessResponse("商品状态修改成功");
+    }
 
     User getUserInfo(String token){
         List<User> users = userRepository.findByToken(token);
@@ -157,6 +167,10 @@ public class GoodsController {
             return null;
         }
     }
+}
+class GoodsStateChangeReqBody{
+    public String goodsid;
+    public Integer state;
 }
 
 class GoodsInfoRequestBody{
