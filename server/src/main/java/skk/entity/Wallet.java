@@ -6,7 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @Entity
-@Table(name="store")
+@Table(name="wallet")
 public class Wallet {
     @Id
     @GenericGenerator(name = "idGenerator", strategy = "uuid")

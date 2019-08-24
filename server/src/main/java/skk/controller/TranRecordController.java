@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import skk.entity.TranRecord;
 import skk.entity.User;
+import skk.entity.Wallet;
 import skk.repository.TranRecordRepository;
 import skk.repository.UserRepository;
+import skk.repository.WalletRepository;
 import skk.util.FailedResponse;
 import skk.util.Response;
 import skk.util.SuccessResponse;
@@ -14,13 +16,14 @@ import java.util.*;
 
 class TranRequestBody{
     public String id;
-    public String operation;
+    public Integer operation;
     public String walletId;
-    public int cost;
+    public Integer cost;
     public Date date;
-    public int state;
+    public Integer state;
     public String reason;
     public String memo;
+    public String password;
 }
 
 @RestController
@@ -30,6 +33,9 @@ public class TranRecordController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private WalletRepository walletRepository;
 
     @Autowired
     private TranRecordRepository tranRepository;
@@ -84,6 +90,12 @@ public class TranRecordController {
             return r;
         }
 
+        Wallet w = walletRepository.findById(req.walletId).get();
+        if(!req.password.equals(w.password))
+            return new FailedResponse("密码错误");
+        if(req.cost > w.balance)
+            return  new FailedResponse("余额不足");
+
         TranRecord newTran = new TranRecord();
         newTran.state = 0;
         newTran.date = new Date();
@@ -106,15 +118,22 @@ public class TranRecordController {
         }
 
         TranRecord newTran = new TranRecord();
+        if(req.state == 1){
+            Wallet w = walletRepository.findById(req.walletId).get();
+            if(req.operation == 0)
+                w.balance += req.cost;
+            if(req.operation == 1) {
+                if (w.balance > req.cost)
+                    return new SuccessResponse("余额不足");
+                w.balance -= req.cost;
+            }
+            walletRepository.save(w);
+        }
         newTran.id = req.id;
         newTran.state = req.state;
         newTran.reason = req.reason;
         newTran.memo = req.memo;
         tranRepository.save(newTran);
-
-        if(req.state == 1){
-            //更改钱包余额
-        }
 
         return new SuccessResponse("审核成功");
     }

@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface WalletRepository extends CrudRepository<Wallet, String> {
     @Transactional
-    //Optional<Wallet> findBy(String id);
     Optional<Wallet> findByuserid(String userid);
+    Optional<Wallet> findById(String id);
 }

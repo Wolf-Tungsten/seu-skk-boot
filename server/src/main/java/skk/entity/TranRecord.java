@@ -16,19 +16,19 @@ public class TranRecord {
     public String id;
 
     @Column(name = "operation", updatable = false)
-    public String operation;
+    public Integer operation; //0重置 1提现
 
     @Column(name = "walletId", updatable = false)
     public String walletId;
 
     @Column(name = "cost", updatable = false)
-    public int cost;
+    public Integer cost;
 
     @Column(name = "date", updatable = false)
     public Date date;
 
     @Column(name = "state")
-    public int state; //0未审核 1审核并通过 2审核未通过
+    public Integer state; //0未审核 1审核并通过 2审核未通过
 
     @Column(name = "reason")
     public String reason;
