@@ -17,7 +17,6 @@ class  BvoInfochangeReqBody{
     public String name;
     public String email;
     public String phone;
-    public String userid;
 }
 //添加心愿单项目表单
 class  BvoWishReqBody{
@@ -27,18 +26,6 @@ class  BvoWishReqBody{
 class deletWishsReqBody{
     public List<String> goodsIdList ;
 }
-
-//支付请求表单
-class payOrderReqBody{
-    public String goodsId;
-    public String reciever;
-    public String detialAddress;
-    public String address_state;
-    public String address_city;
-    public String OrderUid;
-    public Integer ShippingMethod;
-}
-
 
 
 @RestController
@@ -175,62 +162,5 @@ public class Bvocontroller {
         return new SuccessResponse(goodsList);
     }
 
-    //**初始化一些amazon和ebay上用户的订单
-    @GetMapping
-    @RequestMapping("/initOrders")
-    public @ResponseBody
-    Response buyGoods(){
-        String userId = "";
-        Orders newOrder1 = new Orders(userId,"电炖锅",60,50,"QK123456",
-                3000,1,"2017-23-02 19:00:20");
-        Orders newOrder2 = new Orders(userId,"李永乐线代讲义",10,50,"QK123456",
-                500,1,"2017-23-02 19:00:20");
-        Orders newOrder3 = new Orders(userId,"李永乐线代讲义",10,50,"QK123456",
-                500,1,"2017-23-02 19:00:20");
-        orderRepository.save(newOrder1);
-        orderRepository.save(newOrder2);
-        orderRepository.save(newOrder3);
-        Iterable<Orders> orderIterable = orderRepository.findAll();
-        Iterator<Orders> itr = orderIterable.iterator();
-        while (itr.hasNext()){
-            OrderXBvo oxb = new OrderXBvo(userId,itr.next().id);
-            orderXBvoRepository.save(oxb);
-        }
-        return new SuccessResponse("initSuccess");
-    }
-    //借卖方订单显示
-    @GetMapping
-    @RequestMapping("/showOrder")
-    public @ResponseBody
-    Response showOrders(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token){
-        User user = getUserInfo(token);
-        if(user == null){
-            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
-            return r;
-        }
-        List<Orders> orderList = orderRepository.findAllByUserId(user.id);
-        return new SuccessResponse(orderList);
-    }
-
-    //借卖方订单支付
-    @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
-    @RequestMapping("/payOrder")
-    public @ResponseBody
-    Response payOrder(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,@RequestBody payOrderReqBody reqBody){
-        User user = getUserInfo(token);
-        if(user == null){
-            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
-            return r;
-        }
-        String orderUid = reqBody.OrderUid;
-        String goodsUid = reqBody.goodsId;
-        Orders bvoOrder = orderRepository.findAllById(orderUid);
-        Goods goods = goodsRepository.findAllById(goodsUid);
-        Orders mvoOrder = new Orders(goods.mvoid,bvoOrder.title,bvoOrder.price,
-                bvoOrder.qty,bvoOrder.sku,bvoOrder.totalprice,bvoOrder.state,bvoOrder.date);
-        orderRepository.save(mvoOrder);
-        return new SuccessResponse("success");
-    }
-    //
 }
 
