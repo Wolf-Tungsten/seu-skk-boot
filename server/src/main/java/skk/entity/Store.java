@@ -14,10 +14,10 @@ public class Store {
     public String id;
 
     //sellerid即借卖方的uuid
-    @Column(name = "sellerid",unique = true, nullable = false, length = 64)
+    @Column(name = "sellerid", nullable = false, length = 64)
     public String sellerid;
 
-    @Column(name = "storename",unique = true, nullable = false, length = 64)
+    @Column(name = "storename", nullable = false, length = 64)
     public String storename;
 
     @Column(name = "marketplaceId",length = 64)

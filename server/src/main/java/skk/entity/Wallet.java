@@ -18,17 +18,17 @@ public class Wallet {
     @Column(name="userid",nullable = false,length = 64)
     public String userid;
 
-    @Column(name = "accountName",nullable = false,length = 64)
+    @Column(name = "accountName",length = 64)
     public String accountName;
 
-    @Column(name = "email",nullable = false,length = 64)
+    @Column(name = "email",length = 64)
     public String email;
 
-    @Column(name = "password",nullable = false,length = 64)
+    @Column(name = "password",length = 64)
     public String password;
 
     //账户余额
-    @Column(name = "balance",nullable = false)
+    @Column(name = "balance")
     public Integer balance = 100000;
 
 }
