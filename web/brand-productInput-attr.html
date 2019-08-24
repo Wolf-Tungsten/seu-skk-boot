@@ -35,10 +35,9 @@
       <div style="margin: 20px;" class="form-search">
         商品标题：
         <input type="text" class="input-medium search-query" id="searchName" />
-        <button class="btn btn-purple btn-small" id="searchBtn">搜索 <i
-            class="icon-search icon-on-right"></i></button>
-            <button class="btn btn-small" id="clearSearchBtn">清空搜索条件</button>
-        </div>
+        <button class="btn btn-purple btn-small" id="searchBtn">搜索 <i class="icon-search icon-on-right"></i></button>
+        <button class="btn btn-small" id="clearSearchBtn">清空搜索条件</button>
+      </div>
       <table id="table_bug_report" class="table table-striped table-bordered table-hover">
         <thead>
           <tr>
@@ -64,30 +63,30 @@
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootbox.min.js"></script>
   <script>
-    var name = ""
+    var searchName = ""
     $(function () {
 
       getGoodsList()
 
-      $("#searchBtn").click(function(){
+      $("#searchBtn").click(function () {
         searchGoods()
       })
 
-      $("#clearSearchBtn").click(function(){
-        name=""
+      $("#clearSearchBtn").click(function () {
+        searchName = ""
         $("#searchName").val("")
         getGoodsList()
       })
     })
 
-    function searchGoods(){
-      name = $("#searchName").val()
+    function searchGoods() {
+      searchName = $("#searchName").val()
       getGoodsList()
     }
 
     // 获取商品列表
-    function getGoodsList(){
-      axios.get($server + "goods/search?name="+name).then(res => {
+    function getGoodsList() {
+      axios.get($server + "goods/search?name=" + searchName).then(res => {
         let list = res.data.result.map(i => {
           return `<tr>
             <td class="center">
@@ -109,15 +108,15 @@
 
         $("#goodsList").html(list.join('\n'))
       })
-      
+
     }
 
-    function gotoEdit(id){
-      console.log("前往编辑"+id)
+    function gotoEdit(id) {
+      console.log("前往编辑" + id)
       $store.goodId = id
       window.location.href = "brand-productInput-attr2.html";
     }
-    
+
     // 前往添加商品
     function gotoadd() {
       $store.goodId = ''
@@ -125,10 +124,10 @@
     }
 
     // 删除商品
-    function deleteGoods(id){
-      console.log("删除"+id)
-      axios.get($server+`goods/deletebyId?id=${id}`).then(function(res){
-        if(res.data.success){
+    function deleteGoods(id) {
+      console.log("删除" + id)
+      axios.get($server + `goods/deletebyId?id=${id}`).then(function (res) {
+        if (res.data.success) {
           alert('商品删除成功！')
           searchGoods()
         }

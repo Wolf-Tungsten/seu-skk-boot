@@ -9,7 +9,11 @@
         <link rel="stylesheet" href="css/ace-skins.min.css">
         <link rel="stylesheet" href="css/ace-responsive.min.css">
         <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
-
+        <script src="js/babel.min.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/store.js"></script>
+        <script src="js/axios.js"></script>
+        <script src="js/axios-helper.js"></script>
     </head>
     <style>
         body,html{
@@ -35,28 +39,44 @@
         <div class="content">
             <div class="gray shop">Set up API connection with your store by account authorisation</div>
 
-            <button class="btn btn-primary btn-block shop">Amazon</button><br>
-            <button class="btn btn-primary btn-block shop">eBay</button>
+            <button class="btn btn-primary btn-block shop" id="amazonTypeBtn">Amazon</button><br>
+            <button class="btn btn-primary btn-block shop" id="eBayTypeBtn">eBay</button>
 
             <div class="goodsname hide control-group">
-                <div><label>Store Name</label><input type="text"></div>
-                <div><label>Seller ID</label><input type="text"></div>
-                <div><label>Marketplace ID</label><input type="text"></div>
-                <div><label>MWS Auth Token</label><input type="text"></div>
+                <div><label>Store Name</label><input type="text" id="storename"></div>
+                <div><label>Marketplace ID</label><input type="text" id="marketplaceId"></div>
+                <div><label>MWS Auth Token</label><input type="text" id="storeToken"></div>
                 <div class="button save"><button class="btn" style="margin-right: 10px">cancel</button><button class="btn btn-primary">save</button></div>
             </div>
         </div>
     </div>
     </div>
     <script type="text/javascript">
+    var type = ""
     $(function(){
+        $("#amazonTypeBtn").click(function(){
+            console.log('店铺选择为Amazon')
+            type = 'amazon'
+        })
+        $("#eBayTypeBtn").click(function(){
+            console.log('店铺选择为eBay')
+            type = 'ebay'
+        })
         $(".shop").click(function(event) {
             $(".goodscontent h3").text($(this).text());
             $(".shop").hide();
             $(".goodsname").show();
         });
         $(".save").click(function(){
-            window.location.href = "bvo-goodsstoreAdd.html";
+            let storeName = $("#storename").val()
+            let marketplaceId = $("#marketplaceId").val()
+            let storeToken = $("#storeToken").val()
+            axios.post($server + 'store/addStore', {storeName, marketplaceId, storeToken, type}).then(function(res){
+                if(res.data.success){
+                    alert('店铺添加成功！')
+                    window.location.href = "bvo-goodsstoreAdd.html";
+                }
+            })
         })
     })
     </script>

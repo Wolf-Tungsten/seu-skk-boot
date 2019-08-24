@@ -41,6 +41,7 @@ public class GoodsController {
            newgoods = goodsRepository.findAllById(requestBody.id);
         }else{
             newgoods = new Goods();
+            newgoods.state = 1;
         }
         //更新信息
         newgoods.mvoid = user.id;
@@ -57,6 +58,9 @@ public class GoodsController {
         newgoods.width = requestBody.width;
         newgoods.model = requestBody.model;
         newgoods.maintain = requestBody.maintain;
+        newgoods.amount = requestBody.amount;
+        newgoods.img = requestBody.img;
+        newgoods.type = requestBody.type;
         goodsRepository.save(newgoods);
         return new SuccessResponse("success");
     }
@@ -184,6 +188,9 @@ class GoodsInfoRequestBody{
     public String maintain;
     public String ebaydis;
     public String amazondis;
+    public String img;
+    public Integer amount;
+    public String type;
 }
 class GoodsMainImgReqBody{
     public String goodsid;
