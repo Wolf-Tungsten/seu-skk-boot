@@ -141,7 +141,7 @@ public class Bvocontroller {
         }
         List<BvoWish> wishList = bvowishRepository.findAllByBvoid(user.id);
         List<Goods> goodsList = new LinkedList<>();
-        for (int i=0;i<goodsList.size();i++){
+        for (int i=0;i<wishList.size();i++){
             Goods goods = goodsRepository.findAllById(wishList.get(i).goodsid);
             goodsList.add(goods);
         }
@@ -160,6 +160,5 @@ public class Bvocontroller {
         }
         return new SuccessResponse(goodsList);
     }
-
 }
 
