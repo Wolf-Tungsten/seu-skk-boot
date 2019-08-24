@@ -9,4 +9,6 @@ public interface OrderRepository extends CrudRepository<Orders,String> {
     List<Orders> findAllByMvoId(String id);
     List<Orders> findAllByBvoId(String id);
     Orders findALLById(String id);
+    List<Orders> findAllByBvoIdAndTitleLike(String id,String name);
+    List<Orders> findAllByMvoIdAndTitleLike(String id,String name);
 }

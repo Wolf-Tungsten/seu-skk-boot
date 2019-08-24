@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface TranRecordRepository extends CrudRepository<TranRecord,String> {
     List<TranRecord> findAll();
+    List<TranRecord> findTranRecordByWalletId(String walletId);
 }

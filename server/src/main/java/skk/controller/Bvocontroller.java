@@ -65,8 +65,10 @@ public class Bvocontroller {
             return r;
         }
 
-        //各种判断
-        Bvo newBvo = new Bvo();
+        Bvo newBvo = bvoRepository.findAllByUserid(user.id);
+        if(newBvo==null){
+            newBvo = new Bvo();
+        }
         newBvo.name = requestBody.name;
         newBvo.email = requestBody.email;
         newBvo.phone = requestBody.phone;
@@ -139,7 +141,6 @@ public class Bvocontroller {
             FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
             return r;
         }
-
         List<BvoWish> wishList = bvowishRepository.findAllByBvoid(user.id);
         List<Goods> goodsList = new LinkedList<>();
         for (int i=0;i<goodsList.size();i++){
@@ -161,6 +162,5 @@ public class Bvocontroller {
         }
         return new SuccessResponse(goodsList);
     }
-
 }
 
