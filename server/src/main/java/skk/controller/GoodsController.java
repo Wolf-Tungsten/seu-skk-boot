@@ -26,7 +26,6 @@ public class GoodsController {
     @Autowired
     private BvoRepository bvoRepository;
 
-
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/post")
     public @ResponseBody
