@@ -78,7 +78,7 @@ public class ParController {
         return new SuccessResponse("修改成功");
     }
 
-    public @DeleteMapping(path = "/parameter")
+    public @PostMapping(path = "/delete")
     Response deleteEntry(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
                          @RequestBody DeleteParRequestBody req){
 
