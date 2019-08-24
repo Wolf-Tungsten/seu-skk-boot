@@ -3,7 +3,10 @@ package skk.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import skk.entity.Par;
+import skk.entity.User;
 import skk.repository.ParRepository;
+import skk.repository.UserRepository;
+import skk.util.FailedResponse;
 import skk.util.Response;
 import skk.util.SuccessResponse;
 
@@ -23,10 +26,43 @@ class ParRequestBody{
 public class ParController {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private ParRepository parRepository;
 
-    @RequestMapping("/addOrUpdate")
-    public Response createEntry(@RequestBody ParRequestBody req){
+    User getUserInfo(String token){
+        List<User> users = userRepository.findByToken(token);
+        if(users.size() == 1){
+            return users.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    public @GetMapping(path = "/parameter")
+    Response allPar(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token){
+
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
+
+        List<Par> list = parRepository.findAll();
+        SuccessResponse r = new SuccessResponse(list);
+        return r;
+    }
+
+    public @PostMapping(path = "/parameter")
+    Response createEntry(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
+                         @RequestBody ParRequestBody req){
+
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
 
         Par newPar = new Par();
         newPar.id = req.id;
@@ -34,25 +70,23 @@ public class ParController {
         newPar.parKey = req.parKey;
         newPar.parValue = req.parValue;
         parRepository.save(newPar);
-        List<Par> list = parRepository.findAll();
-        SuccessResponse r = new SuccessResponse(list);
-        return r;
+
+        return new SuccessResponse("修改成功");
     }
 
-    @RequestMapping("/delete")
-    public Response deleteEntry(@RequestBody DDRequestBody req){
+    public @DeleteMapping(path = "/parameter")
+    Response deleteEntry(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
+                         @RequestBody DDRequestBody req){
+
+        User user = getUserInfo(token);
+        if(user == null){
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
 
         parRepository.deleteById(req.id);
-        List<Par> list = parRepository.findAll();
-        SuccessResponse r = new SuccessResponse(list);
-        return r;
+
+        return new SuccessResponse("删除成功");
     }
 
-    @RequestMapping("/all")
-    public Response showAll(){
-
-        List<Par> list = parRepository.findAll();
-        SuccessResponse r = new SuccessResponse(list);
-        return r;
-    }
 }
