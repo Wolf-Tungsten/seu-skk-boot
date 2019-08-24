@@ -80,9 +80,9 @@ public class OrdersController {
         }
         List<Orders> ordersList = new LinkedList<>();
 
-        if (user.role.equals("MVO")) {
+        if (user.role.equals("mvo")) {
             ordersList = orderRepository.findAllByMvoId(user.id);
-        } else if(user.role.equals("BVO")){
+        } else if(user.role.equals("bvo")){
             ordersList = orderRepository.findAllByBvoId(user.id);
         }else {
             return new FailedResponse("权限不对");
@@ -105,7 +105,7 @@ public class OrdersController {
         }
         Orders orders = orderRepository.findALLById(reqBody.OrderId);
         orders.state = reqBody.state;
-        if(orders.state==2&&user.role.equals("BVO")){ //如果订单状态修改为已支付
+        if(orders.state==2&&user.role.equals("bvo")){ //如果订单状态修改为已支付
             //已支付
             Wallet walletBvo = walletRepository.findAllByUserid(user.id).get(0);
             Wallet walletMvo = walletRepository.findAllByUserid(orders.mvoId).get(0);
@@ -137,10 +137,10 @@ public class OrdersController {
         str += goodsName;
         str += "%";
         //根据身份返回对应符合条件的订单
-        if(user.role.equals("BVO")){
+        if(user.role.equals("bvo")){
             List<Orders>ordersList = orderRepository.findAllByBvoIdAndTitleLike(user.id,str);
             return new SuccessResponse(ordersList);
-        }else if (user.role.equals("MVO")){
+        }else if (user.role.equals("mvo")){
 
             List<Orders> ordersList = orderRepository.findAllByMvoIdAndTitleLike(user.id,str);
             return new SuccessResponse(ordersList);

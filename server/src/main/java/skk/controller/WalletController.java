@@ -23,6 +23,7 @@ class ModifyWalletPwdReqBody{
 }
 
 @RestController
+@CrossOrigin
 @RequestMapping("/wallet")
 public class WalletController
 {
@@ -41,9 +42,9 @@ public class WalletController
     }
 
     @PostMapping(consumes = "application/json;charset=utf-8", produces = "application/json;charset=utf-8")
-    @RequestMapping("/signin")
+    @RequestMapping("/signup")
     public @ResponseBody
-    Response signin (@RequestHeader(name = "x-skk-token",required = false,defaultValue = "null")String token,
+    Response signup (@RequestHeader(name = "x-skk-token",required = false,defaultValue = "null")String token,
                      @RequestBody WalletSignupRequestBody requestBody) {
         //钱包注册逻辑
         User user = getUserInfo(token);
@@ -86,10 +87,18 @@ public class WalletController
                     ) {
 
         User user = getUserInfo(token);
+
         if(user == null) {
             return new FailedResponse("身份认证失效，请重新登录");
         }
+
         List<Wallet> walletList = walletRepository.findAllByUserid(user.id);
+
+        if(walletList.size() <= 0){
+            return new FailedResponse("未注册钱包");
+        }
+
         return  new SuccessResponse(walletList.get(0));
     }
+
 }

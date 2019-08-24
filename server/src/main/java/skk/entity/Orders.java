@@ -78,7 +78,7 @@ public class Orders {
     public String date;
 
     public String getStateStr(String role,int state){
-        if (role.equals("MVO")){
+        if (role.equals("mvo")){
             switch (state){
                 case 1:
                     return "待支付";
@@ -93,7 +93,7 @@ public class Orders {
             }
 
         }
-        if (role.equals("BVO")){
+        if (role.equals("bvo")){
             switch (state){
                 case 1:
                     return "待支付";
