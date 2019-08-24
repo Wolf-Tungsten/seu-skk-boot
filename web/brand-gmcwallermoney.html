@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+</head>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/ace.min.css">
+<link rel="stylesheet" href="css/ace-skins.min.css">
+<link rel="stylesheet" href="css/ace-responsive.min.css">
+<script src="js/babel.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/store.js"></script>
+<script src="js/axios.js"></script>
+<script src="js/axios-helper.js"></script>
+<style>
+  body,
+  html {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+  }
+
+  .info div {
+    float: right;
+  }
+</style>
+
+<body>
+
+  <div id="main-content" class="clearfix">
+    <div id="page-content" class="clearfix">
+      <div class="page-header position-relative">
+        <h1 style="color: #2679b5;">品牌方 <small><i class="icon-double-angle-right"></i> 账户余额</small></h1>
+      </div>
+
+      <table id="table_bug_report" class="table table-striped table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>账户名称</th>
+            <th>可用余额</th>
+            <th></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td><a id="accountName" ></a></td>
+            <td id="balance"></td>
+            <td class="center">
+              <div class="inline position-relative">
+                <button class="btn btn-mini btn-info" data-toggle="modal" data-target="#myModal">提现</button>
+
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div class="inline position-relative">
+        <button class="btn btn-mini btn-info" data-toggle="modal" data-target="#myModal1">修改密码</button>
+        <button class="btn btn-mini btn-info history">提现流水</button>
+      </div>
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">账户提现</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal">
+
+                <div class="control-group">
+                  <label class="control-label" for="form-field-1">提现金额：$</label>
+                  <div class="controls">
+                    <input type="text" id="depositValue">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="form-field-1">电子钱包密码：</label>
+                  <div class="controls">
+                    <input type="password" id="depositPassword">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button id="depositBtn" type="button" class="btn btn-primary" data-dismiss="modal">确认提现</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                  aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form-horizontal">
+
+                <div class="control-group">
+                  <label class="control-label" for="form-field-1">旧密码</label>
+                  <div class="controls">
+                    <input type="password" id="oldPwd">
+                  </div>
+                </div>
+                <div class="control-group">
+                  <label class="control-label" for="form-field-1">新密码</label>
+                  <div class="controls">
+                    <input type="password" id="newPwd">
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+              <button id="modifyPasswordBtn" type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/jquery-1.9.1.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script>
+    $(function () {
+      var walletId = ""
+      $('.history').click(function () {
+        window.location.href = "bvo-gmcwallerAcountList.html"
+      })
+      // 检查是否已经开通钱包，如果已经开通就跳转到钱包列表页
+      axios.get($server + 'wallet/show').then(res => {
+          if(res.data.success){
+              let data = res.data.result
+              $("#accountName").text(data.accountName)
+              $("#balance").text('$'+data.balance)
+              walletId = data.id
+          }
+      })
+
+      // 提现功能
+      $("#depositBtn").click(function(){
+        let operation = 1
+        let password = $("#depositPassword").val()
+        let cost = $("#depositValue").val()
+        axios.post($server + "tran/addTran", {walletId, operation, password, cost}).then(function(res){
+          if(res.data.success){
+            alert("提现已发起，请等待管理员审核")
+          } else {
+            alert(res.data.reason)
+          }
+        })
+      })
+
+      // 密码重制功能
+      $("#modifyPasswordBtn").click(function(){
+        let oldPwd = $("#oldPwd").val()
+        let newPwd = $("#newPwd").val()
+        axios.post($server +"wallet/modifyPwd", {oldPwd, newPwd}).then(function(res){
+          if(res.data.success){
+            alert("密码修改成功")
+          } else {
+            alert(res.data.reason)
+          }
+        })
+      })
+    })
+
+
+
+  </script>
+</body>
+
+</html>

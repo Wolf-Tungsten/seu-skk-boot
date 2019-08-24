@@ -170,7 +170,7 @@
                     <th>Sku</th>
                     <th>Total</th>
                     <th>Order No</th>
-                    <th>Tracking No</th>
+                    <th>Operation</th>
 
                   </tr>
                 </thead>
@@ -278,7 +278,7 @@
                   </tr>
                 </thead>
 
-                <tbody id="complete">
+                <tbody id="completed">
 
                   <tr>
                     <td class="center">
@@ -362,7 +362,7 @@
                   </tr>
                 </thead>
 
-                <tbody id="canceled">
+                <tbody id="cancelled">
                   <tr>
                     <td class="center">
                       <label><input type="checkbox" class="input"><span class="lbl"></span></label>
@@ -434,7 +434,7 @@
           let awaitingShipment = []
           let shiped = []
           let completed = []
-          let canceled = []
+          let cancelled = []
 
           awaitingPayment = data.filter(i => i.state == 1).map(i => {
             return `<tr>
@@ -484,11 +484,53 @@
                       ${i.id}
                     </td>
                     <td>
-                      <a>-</a>
+                        <button class="btn btn-minier btn-yellow cancel" onclick="complete('${i.id}')">confirm</button>
+                        <button class="btn btn-minier btn-danger cancel" onclick="cancel('${i.id}')">cancel</button>
                     </td>
                   </tr>`
             })
           $("#shiped").html(shiped.join(''))
+
+          completed = data.filter(i => i.state == 4).map(i => {
+            return `<tr>
+                    <td class="center">
+                      <label><input type="checkbox" class="input"><span class="lbl"></span></label>
+                    </td>
+                    <td><a>${i.title}</a></td>
+                    <td>$${i.price}</td>
+                    <td>${i.qty}</td>
+                    <td>${i.sku}</td>
+
+                    <td>$${i.price * i.qty}</td>
+                    <td>
+                      ${i.id}
+                    </td>
+                    <td>
+                      ${i.goodsId}
+                    </td>
+                  </tr>
+                  `
+            })
+          $("#completed").html(completed.join(''))
+
+          cancelled = data.filter(i => i.state == 5).map(i => {
+            return `<tr>
+                    <td class="center">
+                      <label><input type="checkbox" class="input"><span class="lbl"></span></label>
+                    </td>
+                    <td><a>${i.title}</a></td>
+                    <td>$${i.price}</td>
+                    <td>${i.qty}</td>
+                    <td>${i.sku}</td>
+
+                    <td>$${i.price * i.qty}</td>
+                    <td>
+                      ${i.id}
+                    </td>
+                  </tr>
+                  `
+            })
+          $("#cancelled").html(cancelled.join(''))
         }
       })
     }
@@ -496,11 +538,29 @@
     function pay(id, totalPrice){
       axios.post($server+'Orders/changeOrdersState', {OrderId:id, totalprice:totalPrice,  state:2}).then(res => {
         if(res.data.success){
-          alert('支付成功！')
+          alert('支付成功')
+          getOrderList()
         }
       })
     }
 
+    function complete(id){
+      axios.post($server+'Orders/changeOrdersState', {OrderId:id, state:4}).then(res => {
+        if(res.data.success){
+          alert('订单完成')
+          getOrderList()
+        }
+      })
+    }
+
+    function cancel(id){
+      axios.post($server+'Orders/changeOrdersState', {OrderId:id, state:5}).then(res => {
+        if(res.data.success){
+          alert('订单取消成功')
+          getOrderList()
+        }
+      })
+    }
   </script>
 </body>
 

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/ace.min.css">
+    <link rel="stylesheet" href="css/ace-skins.min.css">
+    <link rel="stylesheet" href="css/ace-responsive.min.css">
+    <link rel="stylesheet" href="webuploader/webuploader.css">
+    <script type="text/javascript" src="js/jquery-1.9.1.js"></script>
+    <script src="js/babel.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/axios.js"></script>
+    <script src="js/axios-helper.js"></script>
+    <style type="text/css">
+        body,
+        html {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+        }
+
+
+        .Register {
+            width: 50%;
+            margin: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main-content" class="clearfix">
+        <div id="page-content" class="clearfix">
+            <div class="page-header position-relative">
+                <h1 style="color: #2679b5;">品牌方<small><i class="icon-double-angle-right"></i> 钱包账号注册</small></h1>
+            </div>
+            <div class="Register">
+                <div><label class="green">电子邮件地址:</label><input type="text" id="email"></div>
+                <div><label class="green">账户名称:</label><input type="text" id="accountName"></div>
+                <div><label class="green">密码:</label><input type="password" id="password"></div>
+                <button class="btn  btn-success save" onclick="signup()">开通电子钱包</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        function gotoWallet() {
+            window.location.href = "brand-gmcwallermoney.html"
+        }
+
+        function signup() {
+            let email = $("#email").val()
+            let accountName = $("#accountName").val()
+            let password = $("#password").val()
+            axios.post($server + 'wallet/signup', {email, accountName, password}).then(res => {
+                if(res.data.success){
+                    alert('注册成功')
+                    gotoWallet()
+                }
+            })
+        }
+
+        $(function () {
+            // 检查是否已经开通钱包，如果已经开通就跳转到钱包列表页
+            axios.get($server + 'wallet/show').then(res => {
+                if(res.data.success){
+                    $store.walletId = res.data.result.id // 记录钱包id
+                    gotoWallet()
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
