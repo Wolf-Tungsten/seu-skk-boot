@@ -126,7 +126,7 @@
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">cancek</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">cancel</button>
               <button id="modifyPasswordBtn" type="button" class="btn btn-primary" data-dismiss="modal">confirm</button>
             </div>
           </div>
@@ -154,12 +154,12 @@
 
       // 提现功能
       $("#depositBtn").click(function(){
-        let operation = 1
+        let operation = 0
         let password = $("#depositPassword").val()
         let cost = $("#depositValue").val()
         axios.post($server + "tran/addTran", {walletId, operation, password, cost}).then(function(res){
           if(res.data.success){
-            alert("提现已发起，请等待管理员审核")
+            alert("充值已发起，请等待管理员审核")
           } else {
             alert(res.data.reason)
           }
