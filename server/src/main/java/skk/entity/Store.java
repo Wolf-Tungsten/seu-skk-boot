@@ -23,8 +23,12 @@ public class Store {
     @Column(name = "marketplaceId",length = 64)
     public String marketplaceId;
 
-    @Column(name = "token",length = 64)
-    public String token;
+    @Column(name = "storetoken",length = 64)
+    public String storetoken;
+
+    //店铺类型，是Amazon还是EBay，用String
+    @Column(name = "type",nullable = false)
+    public String type;
 
 
 
