@@ -11,13 +11,14 @@ import skk.util.*;
 import java.util.List;
 
 class StoreRequestBody{
-    String storeName;
-    String marketplaceId;
-    String storeToken;
-    String type;
+    public String storeName;
+    public String marketplaceId;
+    public String storeToken;
+    public String type;
 }
 
 @RestController
+@CrossOrigin
 @RequestMapping("/store")
 public class StoreController {
     @Autowired
@@ -55,7 +56,7 @@ public class StoreController {
     }
 
     @RequestMapping("/all")
-    public Response addStore(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token) {
+    public Response allStore(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token) {
         User user = getUserInfo(token);
         if (user == null) {
             FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
@@ -64,7 +65,18 @@ public class StoreController {
         List<Store> list = storeRepository.findAllBysellerid(user.id);
 
         return new SuccessResponse(list);
+    }
 
+    @DeleteMapping("/delete")
+    public Response deleteStore(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,
+    @RequestParam String id) {
+        User user = getUserInfo(token);
+        if (user == null) {
+            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+            return r;
+        }
+        storeRepository.deleteById(id);
+        return new SuccessResponse("删除成功");
     }
 
 

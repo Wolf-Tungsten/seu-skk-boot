@@ -6,7 +6,7 @@ import skk.entity.Store;
 
 import java.util.List;
 
-public interface StoreRepository extends CrudRepository<Store,String> {
+public interface StoreRepository extends CrudRepository<Store, String> {
     @Transactional
     List<Store> findAllBysellerid(String sellerid);
 }
