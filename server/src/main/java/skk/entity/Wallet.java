@@ -29,6 +29,6 @@ public class Wallet {
 
     //账户余额
     @Column(name = "balance",nullable = false)
-    public Integer balance;
+    public Integer balance = 100000;
 
 }
