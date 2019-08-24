@@ -12,13 +12,7 @@ import skk.util.FailedResponse;
 import skk.util.Response;
 import skk.util.SuccessResponse;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-
-
+import java.util.*;
 
 
 @RestController
@@ -31,6 +25,7 @@ public class GoodsController {
     private UserRepository userRepository;
     @Autowired
     private BvoRepository bvoRepository;
+
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/post")
     public @ResponseBody
@@ -60,6 +55,8 @@ public class GoodsController {
         newgoods.height = requestBody.height;
         newgoods.length = requestBody.length;
         newgoods.width = requestBody.width;
+        newgoods.model = requestBody.model;
+        newgoods.maintain = requestBody.maintain;
         goodsRepository.save(newgoods);
         return new SuccessResponse("success");
     }
@@ -96,6 +93,19 @@ public class GoodsController {
         }
     }
 
+    @GetMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
+    @RequestMapping("")
+    public @ResponseBody
+    Response get(@RequestParam(name="id") String id){
+        Optional<Goods> good = goodsRepository.findById(id);
+        if(!good.isPresent()){
+            FailedResponse r = new FailedResponse("商品不存在");
+            return r;
+        }
+
+        return new SuccessResponse(good.get());
+    }
+
     //添加商品主图
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/addMainImg")
@@ -127,6 +137,7 @@ public class GoodsController {
     }
 
     @GetMapping
+    @CrossOrigin
     @RequestMapping("/deletebyId")
     public @ResponseBody
     Response deleteById(@RequestParam String id){
@@ -142,27 +153,27 @@ public class GoodsController {
             return null;
         }
     }
-    class GoodsInfoRequestBody{
-        public String token;
-        public String id;
-        public String name;
-        public Integer length;
-        public Integer width;
-        public Integer height;
-        public Integer weight;
-        public String sku;
-        public String upc;
-        public String ena;
-        public String model;
-        public Integer price;
-        public String maintain;
-        public String ebaydis;
-        public String amazondis;
-    }
-    class GoodsMainImgReqBody{
-        public String goodsid;
-        public String type;
-        public String img;
-        public Integer state;
-    }
+}
+
+class GoodsInfoRequestBody{
+    public String id;
+    public String name;
+    public Integer length;
+    public Integer width;
+    public Integer height;
+    public Integer weight;
+    public String sku;
+    public String upc;
+    public String ena;
+    public String model;
+    public Integer price;
+    public String maintain;
+    public String ebaydis;
+    public String amazondis;
+}
+class GoodsMainImgReqBody{
+    public String goodsid;
+    public String type;
+    public String img;
+    public Integer state;
 }

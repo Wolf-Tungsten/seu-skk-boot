@@ -10,5 +10,5 @@ public interface GoodsRepository extends CrudRepository<Goods,String> {
     List<Goods> findAllByNameLike(String name);
     void deleteById(String id);
     Goods findAllById(String id);
-
+    List<Goods> findAll();
 }
