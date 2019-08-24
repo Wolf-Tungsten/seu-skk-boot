@@ -23,9 +23,7 @@ class CreateTranRequestBody{
 
 class UpdateTranRequestBody{
     public String id;
-    public Integer operation;
     public String walletId;
-    public String password;
     public Integer state;
     public String reason;
     public String memo;
