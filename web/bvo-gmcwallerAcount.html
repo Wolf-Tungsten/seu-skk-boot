@@ -70,6 +70,7 @@
             // 检查是否已经开通钱包，如果已经开通就跳转到钱包列表页
             axios.get($server + 'wallet/show').then(res => {
                 if(res.data.success){
+                    $store.walletId = res.data.result.id // 记录钱包id
                     gotoWallet()
                 }
             })

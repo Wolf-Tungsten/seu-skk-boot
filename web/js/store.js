@@ -17,4 +17,10 @@ window.$store = {
     set goodId(goodId){
         window.localStorage.setItem('goodId', goodId)
     },
+    get walletId(){
+        return window.localStorage.getItem('walletId')
+    },
+    set walletId(walletId){
+        window.localStorage.setItem('walletId', walletId)
+    },
 }
