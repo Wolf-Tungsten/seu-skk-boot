@@ -60,6 +60,13 @@
           </div>
         </div>
         <div class="control-group">
+            <p class="red">设置初始库存数量</p>
+            <label class="control-label" for="amount">库存</label>
+            <div class="controls">
+              <input type="text" id="amount">
+            </div>
+          </div>
+        <div class="control-group">
           <label class="control-label" for="form-field-1">商品sku编码</label>
           <div class="controls">
             <input type="text" id="sku">
@@ -159,6 +166,7 @@
             $("#maintain").val(data.maintain)
             $("#ebaydis").val(data.ebaydis)
             $("#amazondis").val(data.amazondis)
+            $("#amount").val(data.amount)
           }
         })
       }
@@ -168,6 +176,7 @@
       let id = $store.goodId ? $store.goodId : ""
       let name = $("#name").val()
       let length = $("#length").val()
+      let amount = $("#amount").val()
       let width = $("#width").val()
       let height = $("#height").val()
       let weight = $("#weight").val()
@@ -180,7 +189,7 @@
       let ebaydis = $("#ebaydis").val()
       let amazondis = $("#amazondis").val()
       axios.post($server + "goods/post", {
-        id, name, length, width, height, weight,
+        id, name, length, width, height, weight, amount,
         sku, upc, ena, model, price, maintain, ebaydis, amazondis
       }).then(function (res) {
         if (res.data.success) {

@@ -64,7 +64,7 @@
   <script src="js/bootstrap.min.js"></script>
   <script src="js/bootbox.min.js"></script>
   <script>
-    var name = ""
+    var searchName = ""
     $(function () {
 
       getGoodsList()
@@ -74,20 +74,20 @@
       })
 
       $("#clearSearchBtn").click(function(){
-        name=""
+        searchName=""
         $("#searchName").val("")
         getGoodsList()
       })
     })
 
     function searchGoods(){
-      name = $("#searchName").val()
+      searchName = $("#searchName").val()
       getGoodsList()
     }
 
     // 获取商品列表
     function getGoodsList(){
-      axios.get($server + "goods/search?name="+name).then(res => {
+      axios.get($server + "goods/search?name="+searchName).then(res => {
         let list = res.data.result.map(i => {
           return `<tr>
             <td class="center">
