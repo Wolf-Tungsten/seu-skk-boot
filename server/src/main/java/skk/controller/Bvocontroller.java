@@ -27,18 +27,6 @@ class deletWishsReqBody{
     public List<String> goodsIdList ;
 }
 
-//支付请求表单
-class payOrderReqBody{
-    public String goodsId;
-    public String reciever;
-    public String detialAddress;
-    public String address_state;
-    public String address_city;
-    public String OrderUid;
-    public Integer ShippingMethod;
-}
-
-
 
 @RestController
 @CrossOrigin
@@ -173,7 +161,6 @@ public class Bvocontroller {
         }
         return new SuccessResponse(goodsList);
     }
-
 
 }
 
