@@ -180,22 +180,22 @@ public class Bvocontroller {
     @RequestMapping("/initOrders")
     public @ResponseBody
     Response buyGoods(){
-        String userId = "";
-        Orders newOrder1 = new Orders(userId,"电炖锅",60,50,"QK123456",
-                3000,1,"2017-23-02 19:00:20");
-        Orders newOrder2 = new Orders(userId,"李永乐线代讲义",10,50,"QK123456",
-                500,1,"2017-23-02 19:00:20");
-        Orders newOrder3 = new Orders(userId,"李永乐线代讲义",10,50,"QK123456",
-                500,1,"2017-23-02 19:00:20");
-        orderRepository.save(newOrder1);
-        orderRepository.save(newOrder2);
-        orderRepository.save(newOrder3);
-        Iterable<Orders> orderIterable = orderRepository.findAll();
-        Iterator<Orders> itr = orderIterable.iterator();
-        while (itr.hasNext()){
-            OrderXBvo oxb = new OrderXBvo(userId,itr.next().id);
-            orderXBvoRepository.save(oxb);
-        }
+//        String userId = "";
+//        Orders newOrder1 = new Orders(userId,"电炖锅",60,50,"QK123456",
+//                3000,1,"2017-23-02 19:00:20");
+//        Orders newOrder2 = new Orders(userId,"李永乐线代讲义",10,50,"QK123456",
+//                500,1,"2017-23-02 19:00:20");
+//        Orders newOrder3 = new Orders(userId,"李永乐线代讲义",10,50,"QK123456",
+//                500,1,"2017-23-02 19:00:20");
+//        orderRepository.save(newOrder1);
+//        orderRepository.save(newOrder2);
+//        orderRepository.save(newOrder3);
+//        Iterable<Orders> orderIterable = orderRepository.findAll();
+//        Iterator<Orders> itr = orderIterable.iterator();
+//        while (itr.hasNext()){
+//            OrderXBvo oxb = new OrderXBvo(userId,itr.next().id);
+//            orderXBvoRepository.save(oxb);
+//        }
         return new SuccessResponse("initSuccess");
     }
     //借卖方订单显示
@@ -203,13 +203,13 @@ public class Bvocontroller {
     @RequestMapping("/showOrder")
     public @ResponseBody
     Response showOrders(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token){
-        User user = getUserInfo(token);
-        if(user == null){
-            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
-            return r;
-        }
-        List<Orders> orderList = orderRepository.findAllByUserId(user.id);
-        return new SuccessResponse(orderList);
+//        User user = getUserInfo(token);
+//        if(user == null){
+//            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+//            return r;
+//        }
+//        List<Orders> orderList = orderRepository.findAllByUserId(user.id);
+        return new SuccessResponse("success");
     }
 
     //借卖方订单支付
@@ -217,18 +217,18 @@ public class Bvocontroller {
     @RequestMapping("/payOrder")
     public @ResponseBody
     Response payOrder(@RequestHeader(name = "x-skk-token", required = false , defaultValue = "null") String token,@RequestBody payOrderReqBody reqBody){
-        User user = getUserInfo(token);
-        if(user == null){
-            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
-            return r;
-        }
-        String orderUid = reqBody.OrderUid;
-        String goodsUid = reqBody.goodsId;
-        Orders bvoOrder = orderRepository.findAllById(orderUid);
-        Goods goods = goodsRepository.findAllById(goodsUid);
-        Orders mvoOrder = new Orders(goods.mvoid,bvoOrder.title,bvoOrder.price,
-                bvoOrder.qty,bvoOrder.sku,bvoOrder.totalprice,bvoOrder.state,bvoOrder.date);
-        orderRepository.save(mvoOrder);
+//        User user = getUserInfo(token);
+//        if(user == null){
+//            FailedResponse r = new FailedResponse("身份认证失效，请重新登录");
+//            return r;
+//        }
+//        String orderUid = reqBody.OrderUid;
+//        String goodsUid = reqBody.goodsId;
+//        Orders bvoOrder = orderRepository.findAllById(orderUid);
+//        Goods goods = goodsRepository.findAllById(goodsUid);
+//        Orders mvoOrder = new Orders(goods.mvoid,bvoOrder.title,bvoOrder.price,
+//                bvoOrder.qty,bvoOrder.sku,bvoOrder.totalprice,bvoOrder.state,bvoOrder.date);
+//        orderRepository.save(mvoOrder);
         return new SuccessResponse("success");
     }
     //

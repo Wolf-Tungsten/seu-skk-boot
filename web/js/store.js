@@ -10,5 +10,11 @@ window.$store = {
     },
     get token(){
         return window.localStorage.getItem('token')
-    }
+    },
+    get goodId(){
+        return window.localStorage.getItem('goodId')
+    },
+    set goodId(goodId){
+        window.localStorage.setItem('goodId', goodId)
+    },
 }
