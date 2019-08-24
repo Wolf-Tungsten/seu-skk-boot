@@ -59,6 +59,8 @@ public class GoodsController {
         newgoods.model = requestBody.model;
         newgoods.maintain = requestBody.maintain;
         newgoods.amount = requestBody.amount;
+        newgoods.img = requestBody.img;
+        newgoods.type = requestBody.type;
         goodsRepository.save(newgoods);
         return new SuccessResponse("success");
     }
@@ -172,7 +174,9 @@ class GoodsInfoRequestBody{
     public String maintain;
     public String ebaydis;
     public String amazondis;
+    public String img;
     public Integer amount;
+    public String type;
 }
 class GoodsMainImgReqBody{
     public String goodsid;
