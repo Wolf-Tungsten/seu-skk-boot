@@ -106,7 +106,6 @@ public class GoodsController {
             FailedResponse r = new FailedResponse("商品不存在");
             return r;
         }
-
         return new SuccessResponse(good.get());
     }
 
@@ -122,7 +121,6 @@ public class GoodsController {
             FailedResponse r = new FailedResponse("身份认证过期，请重新登录");
             return r;
         }
-
         Goods goods = goodsRepository.findAllById(reqBody.goodsid);
         goods.img = reqBody.img;
         goods.state = reqBody.state;
@@ -183,14 +181,14 @@ class GoodsInfoRequestBody{
     public String sku;
     public String upc;
     public String ena;
-    public String model;
-    public Integer price;
-    public String maintain;
-    public String ebaydis;
-    public String amazondis;
-    public String img;
-    public Integer amount;
-    public String type;
+    public String model; //
+    public Integer price; //价格
+    public String maintain; //保修日期
+    public String ebaydis; //ebay描述
+    public String amazondis; //亚马逊描述
+    public String img; //图片
+    public Integer amount; //数量
+    public String type; //商品类型
 }
 class GoodsMainImgReqBody{
     public String goodsid;

@@ -79,7 +79,6 @@ public class OrdersController {
             return r;
         }
         List<Orders> ordersList = new LinkedList<>();
-
         if (user.role.equals("MVO")) {
             ordersList = orderRepository.findAllByMvoId(user.id);
         } else if(user.role.equals("BVO")){

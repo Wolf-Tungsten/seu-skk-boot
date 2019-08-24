@@ -44,7 +44,6 @@ public class Bvocontroller {
     private OrderXBvoRepository orderXBvoRepository;
     @Autowired
     private UserRepository userRepository;
-
     User getUserInfo(String token){
         List<User> users = userRepository.findByToken(token);
         if(users.size() == 1){
@@ -53,6 +52,8 @@ public class Bvocontroller {
             return null;
         }
     }
+
+
 
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/updatebvo")
@@ -94,9 +95,7 @@ public class Bvocontroller {
         System.out.println(bl.size());
         return new SuccessResponse(bl);
     }
-    //402881e56cbe39d6016cbe3ac41d0000 人
-    //8a8a8b716cbd4fc7016cbd52162b0002 商品
-    //8a8a8b716cbd4fc7016cbd5209b60001
+
     //**添加商品到心愿单
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
     @RequestMapping("/addWish")
@@ -112,7 +111,6 @@ public class Bvocontroller {
         w.goodsid = reqBody.goodsId;
         bvowishRepository.save(w);
         return new SuccessResponse("success");
-
     }
     //**批量删除心愿单中的商品
     @PostMapping(consumes = "application/json;charset=UTF-8", produces = "application/json;charset=UTF-8")
