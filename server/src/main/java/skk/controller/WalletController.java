@@ -69,8 +69,6 @@ public class WalletController
         }
         Wallet newWallet = new Wallet();
         newWallet = walletRepository.findByuserid(user.id).get();
-
         return new SuccessResponse(newWallet);
     }
-
 }
