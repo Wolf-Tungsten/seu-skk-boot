@@ -172,6 +172,14 @@
       getGoodsList()
     }
 
+    function changeState(state, goodsid){
+      axios.post($server+"goods/changeGoodsState",{goodsid, state}).then(function(res){
+        if(res.data.success){
+          searchGoods()
+        }
+      })
+    }
+
     // 获取商品列表
     function getGoodsList() {
       axios.get($server + "goods/search?name=" + searchName).then(res => {
